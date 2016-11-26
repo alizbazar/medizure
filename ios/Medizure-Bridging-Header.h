@@ -4,3 +4,5 @@
 
 // CalendarManager-Bridging-Header.h
 #import "RCTBridgeModule.h"
+#import "RCTBridge.h"
+#import "RCTEventDispatcher.h"

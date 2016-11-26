@@ -10,15 +10,53 @@ class CalendarManager:
   CBCentralManagerDelegate,
   CBPeripheralDelegate {
   
+  var rr_mock_data = [Float](arrayLiteral: 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.3, 0.78, 0.9, 0.77, 0.83)
+
   var centralManager : CBCentralManager!
   var deviceName = "Polar H7 BFC08211"
   var device:CBPeripheral?
+  var bridge: RCTBridge!
+
+  var heartRate = 0
+  var rMSSD: Double = 0.0
+  var sensorDetected = false
+  var energyExpended:Int?
+  var rrIntervals = [Float]()
+  var lastTick: Int = 0
+
+  func calcrMSSD(rrList: [Float], samples: Int) -> Double {
+
+    var rMSSD: Double = 0.0
+    var n: Int = samples
+
+    // ASSUME THAT INTERVALS ARE IN SECONDS -> CONVERT TO MS
+    let rr = rrList.map{ $0 * 1000.0 }
+
+    // Iterate the last samples RR intervals in reverse
+    var prev = rr.last!
+    for interval in rr.suffix(samples).reversed() {
+
+      // Discard values that differ more than 20% from the previous value
+      if (abs(prev - interval) > (prev * 0.2)) {
+        n -= 1
+        continue
+      }
+
+      // Sum of squares
+      rMSSD += Double((interval - prev) * (interval - prev))
+      prev = interval
+    }
+
+    // Return the averaged and squared rMSSD
+    return sqrt(rMSSD * (1.0 / Double(n)))
+  }
   
   @objc(addEvent:location:date:)
   func addEvent(_ name: String, location: String, date: NSNumber) -> Void {
     // Date is ready to use!
     print("This is a test!!!!", name, location, date)
     centralManager = CBCentralManager(delegate :self, queue: nil)
+    print("rMSSD mock test: \(calcrMSSD(rrList: rr_mock_data, samples: 20))")
   }
   
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -93,13 +131,15 @@ class CalendarManager:
       print(characteristic.properties)
       print(characteristic.uuid)
       getHeartRateMeasurementData(hrmData: characteristic.value! as NSData)
+      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: [ "rate": heartRate ])
+      if (rrIntervals.count > (lastTick + 30)) {
+        lastTick = rrIntervals.count
+        rMSSD = calcrMSSD(rrList: rrIntervals, samples: 30)
+        bridge.eventDispatcher().sendAppEvent(withName: "rMSSDTick", body: [ "rMSSD": rMSSD ])
+      }
     }
   }
   
-  private(set) var heartRate = 0
-  private(set) var sensorDetected = false
-  private(set) var energyExpended:Int?
-  private(set) var rrIntervals = [Float]()
   private func getHeartRateMeasurementData(hrmData: NSData)
   {
     print(hrmData)
