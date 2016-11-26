@@ -7,8 +7,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "lodash": "^4.17.2",
     "react": "15.4.1",
-    "react-native": "0.38.0"
+    "react-native": "0.38.0",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   },
   "jest": {
     "preset": "react-native"
@@ -17,6 +21,7 @@
     "babel-jest": "17.0.2",
     "babel-preset-react-native": "1.9.0",
     "jest": "17.0.3",
-    "react-test-renderer": "15.4.1"
+    "react-test-renderer": "15.4.1",
+    "standard": "^8.6.0"
   }
 }
