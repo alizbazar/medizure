@@ -9,15 +9,23 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  NativeModules
 } from 'react-native';
 
+const { CalendarManager } = NativeModules
+
 export default class Medizure extends Component {
+
+  componentDidMount() {
+    CalendarManager.addEvent('This should work!', 'foo', 123)
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to React WOFOOO!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
@@ -36,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
   welcome: {
     fontSize: 20,
