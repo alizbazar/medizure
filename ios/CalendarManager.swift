@@ -14,7 +14,7 @@ import Foundation
 class CalendarManager: NSObject {
   
   @objc(addEvent:location:date:)
-  func addEvent(name: String, location: String, date: NSNumber) -> Void {
+  func addEvent(_ name: String, location: String, date: NSNumber) -> Void {
     // Date is ready to use!
     print("This is a test!!!!", name, location, date)
   }

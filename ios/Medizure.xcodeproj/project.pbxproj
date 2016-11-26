@@ -424,6 +424,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 0810;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Medizure" */;
@@ -739,6 +742,7 @@
 				PRODUCT_NAME = Medizure;
 				SWIFT_OBJC_BRIDGING_HEADER = "Medizure-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -763,6 +767,7 @@
 				);
 				PRODUCT_NAME = Medizure;
 				SWIFT_OBJC_BRIDGING_HEADER = "Medizure-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
