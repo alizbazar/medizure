@@ -6,8 +6,7 @@ const actions = {}
   'CHANGE_BACKGROUND'
 
   // SPECIAL CONSTANTS USED IN STATE
-].forEach(name => actions[name] = name)
-
+].forEach(name => { actions[name] = name })
 
 module.exports = Object.assign({
   APP_VERSION: '0.1.0'

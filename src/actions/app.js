@@ -3,7 +3,6 @@ const {
   CHANGE_BACKGROUND
 } = require('src/constants')
 
-
 export function appStart () {
   return {
     type: APP_STARTUP_COMPLETE
@@ -11,7 +10,7 @@ export function appStart () {
 }
 
 export function changeColor () {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const state = getState()
 
     const color = state.app_state.bg_color === 'lightblue' ? 'pink' : 'lightblue'
@@ -22,6 +21,5 @@ export function changeColor () {
         color
       }
     })
-
   }
 }
