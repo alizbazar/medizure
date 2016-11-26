@@ -8,7 +8,19 @@ import {
 
 export default StyleSheet.create(scaleStylesheet({
   container: {
-    // justifyContent: 'flex-start',
-    backgroundColor: constants.colors.highlight
+    justifyContent: 'flex-start',
+    backgroundColor: constants.colors.highlight,
+  },
+
+  meditateControls: {
+    flex: 1,
+  },
+
+  text: Object.assign({}, constants.text.label, {
+
+  }),
+
+  actionButtons: {
+    marginBottom: 40
   }
 }))

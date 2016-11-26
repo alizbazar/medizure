@@ -109,6 +109,7 @@ const constants = {
     secondary: '#979797',
     disabled: '#B5B5B5',
     inverse: '#FFFFFF',
+    invertedBackground: '#F8F8F8',
     highlight: '#50E3C2',
     highlightDarker: '#02CA9E',
     highlightDarkest: '#04A783'
@@ -126,8 +127,13 @@ Object.assign(constants, {
       fontSize: 24,
       fontFamily: constants.fonts.bold,
       color: constants.colors.inverse,
-    }
+    },
 
+    buttonCopy: {
+      fontFamily: constants.fonts.regular,
+      fontSize: 24,
+      color: constants.colors.inverse
+    }
   },
 
   helpers: {

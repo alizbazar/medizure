@@ -28,14 +28,14 @@ var styles = StyleSheet.create({
 
   cardStyle: {
     backgroundColor: 'white',
-    elevation: 1,
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
+    elevation: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 0
     },
-    shadowRadius: 2,
+    shadowRadius: 0,
   }
 })
 
