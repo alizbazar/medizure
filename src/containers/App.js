@@ -8,7 +8,8 @@ import { Provider } from 'react-redux'
 
 const { CalendarManager } = NativeModules
 
-import Main from 'src/containers/Main'
+import Routes from 'src/containers/Routes'
+
 import store from 'src/store'
 
 import {
@@ -25,7 +26,7 @@ export default class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Main />
+        <Routes />
       </Provider>
     )
   }

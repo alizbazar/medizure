@@ -5,7 +5,10 @@ import _ from 'lodash'
 const {
   APP_STARTUP_COMPLETE,
   CHANGE_BACKGROUND,
-  LOAD_PERSISTENT_APP_STATE
+  LOAD_PERSISTENT_APP_STATE,
+
+  NAV_MEDITATE,
+  NAV_STATS
 } = require('src/constants')
 
 import { asyncStore } from 'src/lib/async-store'
@@ -93,6 +96,18 @@ export function changeColor () {
         color
       }
     })
+  }
+}
+
+export function goToMeditate () {
+  return {
+    type: NAV_MEDITATE
+  }
+}
+
+export function goToStats () {
+  return {
+    type: NAV_STATS
   }
 }
 
