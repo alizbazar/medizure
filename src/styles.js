@@ -141,7 +141,6 @@ Object.assign(constants, {
       color: constants.colors.primary
     },
 
-
     // Small headings, Privacy policies
     h2: {
       fontFamily: constants.fonts.light,
@@ -170,7 +169,6 @@ Object.assign(constants, {
       color: constants.colors.disabled
     },
 
-
     // Chat messages, details
     body: {
       fontSize: 13,
@@ -198,7 +196,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'nowrap',
     justifyContent: 'flex-start',
-    marginTop: constants.helpers.iOSstatusBarHeight,
+    marginTop: constants.helpers.iOSstatusBarHeight
   },
 
   scrollableView: {
@@ -206,7 +204,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'nowrap',
-    marginTop: constants.helpers.iOSstatusBarHeight,
+    marginTop: constants.helpers.iOSstatusBarHeight
   },
 
   centeredContainer: {

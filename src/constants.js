@@ -6,8 +6,7 @@ const actions = {}
   'CHANGE_BACKGROUND',
 
   'NAV_MEDITATE',
-  'NAV_STATS',
-
+  'NAV_STATS'
 
   // SPECIAL CONSTANTS USED IN STATE
 ].forEach(name => { actions[name] = name })

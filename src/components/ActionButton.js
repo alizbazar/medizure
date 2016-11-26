@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 })
 
 export default function (props) {
-  console.log(props.foo)
   return (
     <TouchableOpacity style={styles.container} onPress={props.onPress}>
       <Text>{props.children}</Text>
