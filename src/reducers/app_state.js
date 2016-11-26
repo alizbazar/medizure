@@ -1,11 +1,9 @@
 const {
-  APP_STARTUP_COMPLETE,
-  CHANGE_BACKGROUND
+  APP_STARTUP_COMPLETE
 } = require('src/constants')
 
 const initialState = {
-  app_startup_complete: false,
-  bg_color: 'lightblue'
+  app_startup_complete: false
 }
 
 export default function (currentstate = initialState, action) {
@@ -14,11 +12,6 @@ export default function (currentstate = initialState, action) {
     case APP_STARTUP_COMPLETE:
       return Object.assign({}, currentstate, {
         app_startup_complete: true
-      })
-
-    case CHANGE_BACKGROUND:
-      return Object.assign({}, currentstate, {
-        bg_color: action.payload.color
       })
 
     default:
