@@ -8,19 +8,16 @@ import {
 import ActionButton from 'src/components/ActionButton'
 
 import mainStyles, { constants } from 'src/styles'
-
-const styles = StyleSheet.create({
-  text: constants.text.h1
-})
+import styles from './styles'
 
 export default function (props) {
   return (
-    <View style={[mainStyles.centeredContainer, {backgroundColor: 'lightgreen'}]}>
-      <Text style={styles.text}>
-        STATS
+    <View style={[mainStyles.centeredContainer, styles.container]}>
+      <Text>
+        MEDITATE
       </Text>
-      <ActionButton onPress={props.meditate}>
-        Go back to MEDITATE
+      <ActionButton onPress={props.stats}>
+        Go to STATS
       </ActionButton>
     </View>
   )

@@ -27,13 +27,6 @@ var styles = StyleSheet.create({
   },
 
   cardStyle: {
-    marginTop: 30,
-    marginBottom: 30,
-    marginRight: 13,
-    marginLeft: 13,
-
-    padding: 10,
-    borderRadius: 5,
     backgroundColor: 'white',
     elevation: 1,
     shadowColor: 'black',

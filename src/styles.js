@@ -42,7 +42,7 @@ NoScaling.prototype.getValue = function () {
   return this.value
 }
 
-export const scaleStyles = obj => {
+export const scaleStylesheet = obj => {
   return _.mapValues(obj, (styleObj, styleName) => {
     return _.mapValues(styleObj, (stylePropVal, stylePropName) => {
       if (typeof stylePropVal != 'number' || stylePropVal === 1 || stylePropVal === 0) {
@@ -100,82 +100,32 @@ export const scaleStyles = obj => {
   })
 }
 
-export const constants = {
+const constants = {
   dimensions: {
     windowHeight: heightCurrent
   },
   colors: {
     primary: '#44444C',
     secondary: '#979797',
-    disabled: '#C6C6C6',
-    inverse: '#FDFBF7',
-    background: '#FDFBF7',
-    highlight: '#8CEE7E',
-    highlightDarker: '#5BAF72',
-    negativeHighlight: '#EB8D99',
-    highlightSecondary: '#7FD6EA',
-    highlightSecondaryDarker: '#2CACE3'
+    disabled: '#B5B5B5',
+    inverse: '#FFFFFF',
+    highlight: '#50E3C2',
+    highlightDarker: '#02CA9E',
+    highlightDarkest: '#04A783'
   },
   fonts: {
-    light: 'HelveticaNeue-Light',
-    regular: 'HelveticaNeue',
-    medium: 'HelveticaNeue-Medium',
-    bold: 'HelveticaNeue-Bold'
+    regular: 'Avenir-Medium',
+    bold: 'Avenir-Black',
+    heavy: 'Avenir-Heavy'
   }
 }
 
 Object.assign(constants, {
   text: {
-
-    h1: {
-      fontFamily: constants.fonts.regular,
-      fontSize: 22,
-      lineHeight: 26,
-      color: constants.colors.primary
-    },
-
-    h1light: {
-      fontFamily: constants.fonts.light,
-      fontSize: 22,
-      lineHeight: 26,
-      color: constants.colors.primary
-    },
-
-    // Small headings, Privacy policies
-    h2: {
-      fontFamily: constants.fonts.light,
-      fontSize: 17,
-      color: constants.colors.primary,
-      lineHeight: 20
-    },
-
-    h3bold: {
-      fontFamily: constants.fonts.bold,
-      fontSize: 15,
-      color: constants.colors.primary
-    },
-
-    h4: {
-      fontFamily: constants.fonts.bold,
-      fontSize: 13,
-      lineHeight: 18,
-      color: constants.colors.secondary
-    },
-
-    // WEEK 2, often all caps
     label: {
-      fontFamily: constants.fonts.medium,
-      fontSize: 12,
-      color: constants.colors.disabled
-    },
-
-    // Chat messages, details
-    body: {
-      fontSize: 13,
-      fontFamily: constants.fonts.regular,
-      fontWeight: '300',
-      lineHeight: 18,
-      color: constants.colors.primary
+      fontSize: 24,
+      fontFamily: constants.fonts.bold,
+      color: constants.colors.inverse,
     }
 
   },
@@ -185,6 +135,8 @@ Object.assign(constants, {
     touchableOpacity: 0.7
   }
 })
+
+export { constants }
 
 export default StyleSheet.create({
   // Standard components

@@ -3,7 +3,19 @@ const {
   CHANGE_BACKGROUND
 } = require('src/constants')
 
-const initialState = {}
+const initialState = {
+  history: [
+    {
+      timestamp: "2016-11-27T19:54:33.015Z",
+      hrv_first_min: 60,
+      hrv_last_min: 67,
+      values: [
+
+      ]
+    },
+
+  ]
+}
 
 export default function (currentstate = initialState, action) {
   switch (action.type) {

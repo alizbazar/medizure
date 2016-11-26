@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import {
-  NativeModules
+  NativeModules,
+  StatusBar
 } from 'react-native'
 import { Provider } from 'react-redux'
 
@@ -17,9 +18,18 @@ import {
 } from 'src/actions/app'
 
 export default class App extends Component {
+  componentWillMount() {
+    StatusBar.setHidden(true, false)
+  }
 
   componentDidMount () {
-    CalendarManager.addEvent('This should work!', 'foo', 123)
+    setTimeout(() => {
+      try {
+        CalendarManager.addEvent('This should work!', 'foo', 123)
+      } catch(err) {
+
+      }
+    }, 1000)
     store.dispatch(appStart())
   }
 
