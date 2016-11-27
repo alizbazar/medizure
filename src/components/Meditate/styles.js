@@ -12,15 +12,22 @@ export default StyleSheet.create(scaleStylesheet({
     backgroundColor: constants.colors.highlight,
   },
 
-  meditateControls: {
-    flex: 1,
+  header: {
+    height: 130,
   },
 
-  text: Object.assign({}, constants.text.label, {
+  meditateControls: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
+  time: Object.assign({}, constants.text.time, {
 
   }),
 
-  actionButtons: {
-    marginBottom: 40
+  footer: {
+    marginBottom: 40,
+    justifyContent: 'flex-end',
+    height: 230
   }
 }))

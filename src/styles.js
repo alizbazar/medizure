@@ -133,6 +133,13 @@ Object.assign(constants, {
       fontFamily: constants.fonts.regular,
       fontSize: 24,
       color: constants.colors.inverse
+    },
+
+    time: {
+      fontFamily: constants.fonts.heavy,
+      fontSize: 72,
+      letterSpacing: 1.48,
+      color: constants.colors.inverse
     }
   },
 
