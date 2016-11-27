@@ -4,9 +4,10 @@ import rootReducer from 'src/reducers'
 
 // A super-simple logger
 const logger = store => next => action => {
-  console.log('dispatching', action.type, action)
+  if (action.type !== 'HEARTBEAT') {
+    console.log('dispatching', action.type, action)
+  }
   var result = next(action)
-  // console.log('next state', store.getState())
   return result
 }
 

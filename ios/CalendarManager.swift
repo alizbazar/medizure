@@ -13,7 +13,8 @@ class CalendarManager:
   var rr_mock_data = [Float](arrayLiteral: 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.3, 0.78, 0.9, 0.77, 0.83)
 
   var centralManager : CBCentralManager!
-  var deviceName = "Suunto Smart Sensor" //"Polar H7 BFC08211"
+  var acceptedDevices = ["Suunto Smart Sensor", "Polar H7 BFC08211"]
+  var deviceName:String?
   var device:CBPeripheral?
   var bridge: RCTBridge!
 
@@ -51,12 +52,9 @@ class CalendarManager:
     return sqrt(rMSSD * (1.0 / Double(n)))
   }
   
-  @objc(addEvent:location:date:)
-  func addEvent(_ name: String, location: String, date: NSNumber) -> Void {
-    // Date is ready to use!
-    print("This is a test!!!!", name, location, date)
+  @objc(scanForDevices)
+  func scanForDevices() -> Void {
     centralManager = CBCentralManager(delegate :self, queue: nil)
-    print("rMSSD mock test: \(calcrMSSD(rrList: rr_mock_data, samples: 20))")
   }
   
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -70,7 +68,8 @@ class CalendarManager:
       print("NEXT PERIPHERAL NAME: \(peripheralName)")
       print("NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
       
-            if peripheralName == deviceName {
+            if acceptedDevices.contains(peripheralName) {
+              deviceName = peripheralName
               print("Device found")
               centralManager.stopScan()
               device = peripheral

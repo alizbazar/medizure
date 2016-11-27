@@ -186,7 +186,7 @@ export function scanForDevices () {
       type: SCAN_FOR_DEVICES
     })
 
-    BluetoothHR.addEvent('', '', 0)
+    BluetoothHR.scanForDevices()
   }
 }
 
