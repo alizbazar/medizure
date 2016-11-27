@@ -23,13 +23,13 @@ export default class App extends Component {
   }
 
   componentDidMount () {
-    setTimeout(() => {
-      try {
-        CalendarManager.addEvent('This should work!', 'foo', 123)
-      } catch(err) {
+    // setTimeout(() => {
+    //   try {
+    //     CalendarManager.addEvent('This should work!', 'foo', 123)
+    //   } catch(err) {
 
-      }
-    }, 1000)
+    //   }
+    // }, 1000)
     store.dispatch(appStart())
   }
 

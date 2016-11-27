@@ -2,6 +2,14 @@
 
 import _ from 'lodash'
 
+import {
+  NativeModules,
+  NativeAppEventEmitter
+} from 'react-native'
+const {
+  CalendarManager: BluetoothHR
+} = NativeModules
+
 const {
   APP_STARTUP_COMPLETE,
   CHANGE_BACKGROUND,
@@ -10,6 +18,7 @@ const {
   END_MEDITATION_SESSION,
   SCAN_FOR_DEVICES,
   HEARTBEAT,
+  HRV,
 
   NAV_MEDITATE,
   NAV_STATS
@@ -115,19 +124,38 @@ export function goToStats () {
   }
 }
 
+let HRVsubscription = null
 export function toggleMeditationSession(on = false) {
   return function (dispatch, getState) {
     const state = getState()
     if (on && !state.app_state.is_meditation_ongoing) {
       dispatch({
-        type: START_MEDITATION_SESSION
+        type: START_MEDITATION_SESSION,
+        payload: {
+          timestamp: Date.now()
+        }
+      })
+      HRVsubscription = NativeAppEventEmitter.addListener('rMSSDTick', data => {
+        dispatch({
+          type: HRV,
+          payload: {
+            data,
+            timestamp: Date.now()
+          }
+        })
       })
       // TODO: start listening to HRV values
     } else if (!on && state.app_state.is_meditation_ongoing) {
-
+      if (HRVsubscription) {
+        HRVsubscription.remove()
+        HRVsubscription = null
+      }
       // TODO: Detatch HRV listener
       dispatch({
-        type: END_MEDITATION_SESSION
+        type: END_MEDITATION_SESSION,
+        payload: {
+          timestamp: Date.now()
+        }
       })
     }
   }
@@ -138,18 +166,27 @@ export function scanForDevices () {
     const state = getState()
     // listen to HR and dispatch
     if (!state.app_state.is_connecting_to_hr) {
-      // TODO: replace with real heartbeat signal
-      setInterval(() => {
+      // // TODO: replace with real heartbeat signal
+      // setInterval(() => {
+      //   dispatch({
+      //     type: HEARTBEAT,
+      //     payload: Date.now()
+      //   })
+      // }, 1000)
+
+      NativeAppEventEmitter.addListener('HeartRateTick', data => {
         dispatch({
           type: HEARTBEAT,
           payload: Date.now()
         })
-      }, 1000)
+      })
     }
 
     dispatch({
       type: SCAN_FOR_DEVICES
     })
+
+    BluetoothHR.addEvent('', '', 0)
   }
 }
 

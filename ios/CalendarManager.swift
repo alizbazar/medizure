@@ -13,7 +13,7 @@ class CalendarManager:
   var rr_mock_data = [Float](arrayLiteral: 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.3, 0.78, 0.9, 0.77, 0.83)
 
   var centralManager : CBCentralManager!
-  var deviceName = "Polar H7 BFC08211"
+  var deviceName = "Suunto Smart Sensor" //"Polar H7 BFC08211"
   var device:CBPeripheral?
   var bridge: RCTBridge!
 

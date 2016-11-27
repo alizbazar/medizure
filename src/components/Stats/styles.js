@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native'
 import {
-  constants
+  constants,
+  scaleStylesheet
 } from 'src/styles'
 
-export default StyleSheet.create({
+export default StyleSheet.create(scaleStylesheet({
   text: Object.assign({}, constants.text.label, {
     color: constants.colors.highlight
   }),
@@ -28,4 +29,4 @@ export default StyleSheet.create({
     width: 342,
     height: 240
   }
-})
+}))
