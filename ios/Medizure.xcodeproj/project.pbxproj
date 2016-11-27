@@ -23,6 +23,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5000F9AA1DEA076000B76771 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5016ACE71DEA065600F7A174 /* libRCTAnimation.a */; };
+		5000FA001DEA680F00B76771 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5000F9EC1DEA67F500B76771 /* libART.a */; };
 		5032CB3A1DE8E6AE00EE2068 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032CB391DE8E6AE00EE2068 /* CalendarManager.swift */; };
 		5032CB5C1DE8E7A500EE2068 /* CalendarManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5032CB5B1DE8E7A500EE2068 /* CalendarManagerBridge.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -91,6 +92,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		5000F9EB1DEA67F500B76771 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5000F9E71DEA67F500B76771 /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = ART;
 		};
 		5016ACE61DEA065600F7A174 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -191,6 +199,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Medizure/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Medizure/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		5000F9E71DEA67F500B76771 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		5016ACE01DEA065600F7A174 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5032CB381DE8E6AE00EE2068 /* Medizure-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Medizure-Bridging-Header.h"; sourceTree = "<group>"; };
 		5032CB391DE8E6AE00EE2068 /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
@@ -212,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5000FA001DEA680F00B76771 /* libART.a in Frameworks */,
 				5000F9AA1DEA076000B76771 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -332,6 +342,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5000F9E81DEA67F500B76771 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5000F9EC1DEA67F500B76771 /* libART.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5016ACE11DEA065600F7A174 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +371,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5000F9E71DEA67F500B76771 /* ART.xcodeproj */,
 				5016ACE01DEA065600F7A174 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -471,6 +490,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 5000F9E81DEA67F500B76771 /* Products */;
+					ProjectRef = 5000F9E71DEA67F500B76771 /* ART.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -578,6 +601,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5000F9EC1DEA67F500B76771 /* libART.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libART.a;
+			remoteRef = 5000F9EB1DEA67F500B76771 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5016ACE71DEA065600F7A174 /* libRCTAnimation.a */ = {
