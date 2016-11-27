@@ -7,6 +7,8 @@ import {
 
 import TransitionButton from 'src/components/TransitionButton'
 
+import SessionGraph from './SessionGraph'
+
 import mainStyles, { constants } from 'src/styles'
 
 import styles from './styles'
@@ -18,6 +20,7 @@ export default function (props) {
         <Text style={styles.text}>
           STATS
         </Text>
+        <SessionGraph />
       </View>
       <TransitionButton onPress={props.meditate} direction="down">
         Go back
