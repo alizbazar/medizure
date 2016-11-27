@@ -10,7 +10,7 @@ import * as appActions from 'src/actions/app'
 
 import VerticalSliderCardStack from 'src/components/VerticalNav/VerticalSliderCardStack'
 
-import Meditate from 'src/components/Meditate'
+import Meditate from 'src/containers/Meditate'
 import Stats from 'src/components/Stats'
 
 var styles = StyleSheet.create({

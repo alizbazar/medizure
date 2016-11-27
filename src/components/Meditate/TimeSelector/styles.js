@@ -9,22 +9,22 @@ import {
 export default StyleSheet.create(scaleStylesheet({
 
   playControl: {
-    width: 166,
-    height: 166,
+    width: 340,
+    height: 340,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   progressCircleBorder: {
     //position: 'absolute',
-    marginBottom: -128.5,
+    marginBottom: -279,
 
-    marginLeft: 1,
-    width: 126,
-    height: 126,
-    borderRadius: 62,
-    borderWidth: 1,
-    borderColor: constants.colors.inverse,
+    marginLeft: 0,
+    width: 278,
+    height: 278,
+    borderRadius: 140,
+    borderWidth: 9,
+    borderColor: constants.colors.highlightDarker,
   },
   progressCircleBorderPlaying: {
     borderColor: constants.colors.highlightDarker,
@@ -43,16 +43,16 @@ export default StyleSheet.create(scaleStylesheet({
 
   selectorNub: {
     position: 'absolute',
-    width: 41,
-    height: 41,
+    width: 60,
+    height: 60,
     borderColor: 'black',
-    borderRadius: 21,
+    borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   selectorNubImage: {
-    width: 23,
-    height: 23,
+    width: 40,
+    height: 40,
   },
 }))

@@ -13,7 +13,7 @@ export default StyleSheet.create(scaleStylesheet({
   },
 
   header: {
-    height: 130,
+    height: 120,
   },
 
   meditateControls: {
@@ -25,9 +25,19 @@ export default StyleSheet.create(scaleStylesheet({
 
   }),
 
+  timeSelectorContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
   footer: {
     marginBottom: 40,
     justifyContent: 'flex-end',
-    height: 230
+    height: 200,
   }
 }))

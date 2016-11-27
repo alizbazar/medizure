@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
   View,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native'
 
 import TransitionButton from 'src/components/TransitionButton'
@@ -20,9 +21,9 @@ export default class Meditate extends Component {
     super(props)
 
     this.state = {
-      progress: 0.4,
       selectorAnimationStarted: false,
-      selectedDuration: 9
+      selectedDuration: 0,
+      suggestedDuration: 15
     }
   }
 
@@ -31,7 +32,7 @@ export default class Meditate extends Component {
       this.setState({
         selectorAnimationStarted: true
       })
-    }, 1000)
+    }, 200)
   }
 
   onDurationChange = (progress) => {
@@ -46,15 +47,38 @@ export default class Meditate extends Component {
   };
 
   onDurationSelect = () => {
-    console.log('Duration onSelect:', {
-      selectedDuration: this.state.selectedDuration
-    })
     // const resultingDuration = this._playback.setDuration(this.state.selectedDuration);
 
     // this.setState({
     //   selectedDuration: Math.round(resultingDuration),
     // })
   };
+
+  static durationToProgress(val) {
+    return (val - MIN_DURATION) / (MAX_DURATION - MIN_DURATION);
+  }
+
+  toggle () {
+    if (this.props.meditationOngoing) {
+      this.props.onFinish()
+    } else {
+      this.props.onStart(this.state.selectedDuration)
+    }
+  }
+
+  getTime() {
+    if (this.props.meditationOngoing) {
+      const timeLeft = this.props.progress * this.state.selectedDuration
+      const min = Math.floor(timeLeft)
+      let sec = Math.round((timeLeft - min) * 60)
+      if (sec < 10) {
+        sec = `0${sec}`
+      }
+      return `${min}:${sec}`
+    } else {
+      return this.state.selectedDuration + ':00'
+    }
+  }
 
   renderHeader() {
     return (
@@ -89,25 +113,36 @@ export default class Meditate extends Component {
   }
 
   render() {
+
+    const suggestedRelativeDuration = Meditate.durationToProgress(this.state.suggestedDuration);
+    const minDuration = Meditate.durationToProgress(MIN_DURATION);
+    const maxDuration = this.state.maxDuration ? Meditate_durationToProgress(MAX_DURATION) : null;
+
     return (
       <View style={[mainStyles.centeredContainer, styles.container]}>
         <View style={styles.header}>
           { this.props.meditationOngoing ? null : this.renderHeader() }
         </View>
-        <View style={styles.meditateControls}>
+        <TouchableOpacity style={styles.meditateControls} onPress={() => this.toggle()} activeOpacity={constants.helpers.touchableOpacity}>
+
+          <View style={[styles.timeSelectorContainer]}>
+            <Text style={styles.time}>{this.getTime()}</Text>
+          </View>
 
           <TimeSelector
-            isPlaying={this.props.meditationOngoing}
-            progress={this.state.progress}
+            isPlaying={!!this.props.meditationOngoing}
+            progress={this.props.progress || 0}
 
             selector={!this.props.meditationOngoing}
-            defaultValue={0.4}
+            defaultValue={suggestedRelativeDuration}
+            min={minDuration}
+            max={maxDuration}
             onChange={this.onDurationChange}
             onSelect={this.onDurationSelect}
             waitForVisible={!this.state.selectorAnimationStarted}
           />
 
-        </View>
+        </TouchableOpacity>
 
         { this.props.meditationOngoing ? this.renderMeditationFooter() : this.renderFooter() }
       </View>

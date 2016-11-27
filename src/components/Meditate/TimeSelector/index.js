@@ -10,13 +10,13 @@ import {
   Animated,
 } from 'react-native';
 
-const Progress = require('react-native-progress');
+const Progress = require('react-native-progress')
 
 import commonStyles, { scale, constants } from 'src/styles'
 import styles from './styles'
 
-const SELECTOR_RADIUS = 62;
-const SELECTOR_OFFSET = 0;
+const SELECTOR_RADIUS = 133;
+const SELECTOR_OFFSET = 5;
 
 // Prevent winding from 0.01 to 0.99 when scrubbing on the top
 const MAX_IMMEDIATE_MOVE = 0.7;
@@ -66,6 +66,11 @@ export default class TimeSelector extends Component {
       this.setState({
         selectedValue: val.value
       });
+
+      // Communicate back values from [0, 1]
+      if (this.props.onChange) {
+        this.props.onChange(Math.abs(val.value - MIN_VALUE) / (MAX_VALUE - MIN_VALUE));
+      }
     });
     Animated.timing(
       selectedDuration,
@@ -154,9 +159,9 @@ export default class TimeSelector extends Component {
           <Progress.Circle
             progress={props.selector ? this.state.selectedValue : props.progress}
             animated={!props.selector}
-            size={scale.half(131.5)}
-            thickness={scale.half(5)}
-            color={constants.colors.highlightDarker}
+            size={scale.half(280)}
+            thickness={scale.half(10)}
+            color={constants.colors.inverse}
             borderColor="transparent"
             borderWidth={0}
             style={styles.progressCircle} />
