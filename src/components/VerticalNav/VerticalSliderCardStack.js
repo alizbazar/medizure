@@ -35,14 +35,14 @@
 const NavigationTransitioner = require('NavigationTransitioner');
 const NavigationCard = require('NavigationCard');
 const NavigationCardStackStyleInterpolator = require('NavigationCardStackStyleInterpolator');
-const NavigationCardStackPanResponder = require('./NavigationCardStackPanResponder');
+const VerticalNavigationCardStackPanResponder = require('./VerticalNavigationCardStackPanResponder');
 const NavigationPropTypes = require('NavigationPropTypes');
 const React = require('React');
 const StyleSheet = require('StyleSheet');
 const View = require('View');
 
 const {PropTypes} = React;
-const {Directions} = NavigationCardStackPanResponder;
+const {Directions} = VerticalNavigationCardStackPanResponder;
 
 import type {
   NavigationState,
@@ -53,7 +53,7 @@ import type {
 
 import type {
   NavigationGestureDirection,
-} from 'NavigationCardStackPanResponder';
+} from 'VerticalNavigationCardStackPanResponder';
 
 type Props = {
   direction: NavigationGestureDirection,
@@ -302,7 +302,7 @@ class SliderCardStack extends React.Component<DefaultProps, Props, void> {
         onNavigateForward: this.props.onNavigateForward,
         gestureResponseDistance: this.props.gestureResponseDistance || 300,
       };
-      panHandlers = NavigationCardStackPanResponder.forVertical(panHandlersProps);
+      panHandlers = VerticalNavigationCardStackPanResponder.forVertical(panHandlersProps);
     }
 
     return (

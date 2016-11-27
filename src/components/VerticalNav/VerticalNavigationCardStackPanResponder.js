@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @providesModule NavigationCardStackPanResponder
+ * @providesModule VerticalNavigationCardStackPanResponder
  * @flow
  */
 'use strict';
@@ -78,7 +78,7 @@ type Props = NavigationSceneRendererProps & {
  *   +-+            |
  *     +------------+
  */
-class NavigationCardStackPanResponder extends NavigationAbstractPanResponder {
+class VerticalNavigationCardStackPanResponder extends NavigationAbstractPanResponder {
 
   _isResponding: boolean;
   _isVertical: boolean;
@@ -235,7 +235,7 @@ function createPanHandlers(
   direction: NavigationGestureDirection,
   props: Props,
 ): NavigationPanPanHandlers {
-  const responder = new NavigationCardStackPanResponder(direction, props);
+  const responder = new VerticalNavigationCardStackPanResponder(direction, props);
   return responder.panHandlers;
 }
 
