@@ -166,10 +166,12 @@ export default class TimeSelector extends Component {
             borderWidth={0}
             style={styles.progressCircle} />
         </View>
-        <View style={styles.selectorContainer} ref="selectorContainer" onLayout={(event) => {
+        <View style={styles.selectorContainer} ref={el => {
+          this.selectorContainer = el
+        }} onLayout={(event) => {
 
           const {width, height} = event.nativeEvent.layout;
-          this.refs.selectorContainer.measure((fx, fy, width, height, px, py) => {
+          this.selectorContainer.measure((fx, fy, width, height, px, py) => {
             if (px && py) {
               this.selectorOriginX = px + width / 2;
               this.selectorOriginY = py + height / 2;
