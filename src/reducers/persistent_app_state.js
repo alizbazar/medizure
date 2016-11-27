@@ -1,6 +1,8 @@
 const {
   LOAD_PERSISTENT_APP_STATE,
-  CHANGE_BACKGROUND
+  CHANGE_BACKGROUND,
+  START_MEDITATION_SESSION,
+  END_MEDITATION_SESSION
 } = require('src/constants')
 
 const initialState = {
@@ -22,6 +24,15 @@ export default function (currentstate = initialState, action) {
 
     case LOAD_PERSISTENT_APP_STATE:
       return action.payload
+
+    case START_MEDITATION_SESSION: {
+
+      return currentstate
+    }
+
+    case END_MEDITATION_SESSION: {
+      return currentstate
+    }
 
     case CHANGE_BACKGROUND:
       return Object.assign({}, currentstate, {

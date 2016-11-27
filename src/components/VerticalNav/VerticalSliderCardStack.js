@@ -268,7 +268,7 @@ class SliderCardStack extends React.Component<DefaultProps, Props, void> {
   }
 
   _configureTransition(transitionProps, prevTransitionProps) {
-    return {duration: 150}
+    return {duration: 250}
   }
 
   _render(props: NavigationTransitionProps): ReactElement<any> {

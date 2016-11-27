@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated
 } from 'react-native'
 
 import TransitionButton from 'src/components/TransitionButton'
@@ -23,7 +24,10 @@ export default class Meditate extends Component {
     this.state = {
       selectorAnimationStarted: false,
       selectedDuration: 0,
-      suggestedDuration: 15
+      suggestedDuration: 15,
+      isConnected: false,
+      hrTimeout: null,
+      heartBounce: new Animated.Value(1.0)
     }
   }
 
@@ -33,14 +37,53 @@ export default class Meditate extends Component {
         selectorAnimationStarted: true
       })
     }, 200)
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     isConnected: true
+    //   })
+    // }, 3000)
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.lastHrTimestamp && newProps.lastHrTimestamp !== this.props.lastHrTimestamp) {
+      if (this.state.hrTimeout) {
+        clearTimeout(this.state.hrTimeout)
+      }
+
+      this.setState({
+        isConnected: true,
+        hrTimeout: setTimeout(() => {
+          this.setState({
+            isConnected: false
+          })
+
+          // HR: Connected timeout
+          clearTimeout(this.state.hrTimeout)
+        }, 5000)
+      })
+
+      this.bounceHeart()
+
+    }
+  }
+
+  bounceHeart() {
+    // console.log('BOUNCE')
+      this.state.heartBounce.setValue(0.7),
+    Animated.spring(
+      this.state.heartBounce,
+      {
+        friction: 7,
+        tension: 20,
+        toValue: 1.0
+      }
+    ).start()
   }
 
   onDurationChange = (progress) => {
     const selectedDuration = Math.round(MIN_DURATION + progress * (MAX_DURATION - MIN_DURATION))
-    console.log('Duration onChange:', {
-      progress,
-      selectedDuration
-    })
+
     this.setState({
       selectedDuration
     })
@@ -92,8 +135,10 @@ export default class Meditate extends Component {
     return (
       <View style={styles.footer}>
 
-        <ActionButton selected={true} heart={true}>
-          HR: Connected
+        <ActionButton bounce={this.state.heartBounce} selected={this.state.isConnected} heart={true} onPress={() => this.props.scanForDevices()}>
+          {this.state.isConnected ? "HR: Connected" :
+            this.props.isConnectingToHR ? "HR: Connecting..." : 'HR: Connect'
+          }
         </ActionButton>
 
         <ActionButton selected={false}>

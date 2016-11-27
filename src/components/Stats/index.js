@@ -2,12 +2,11 @@ import React from 'react'
 import {
   View,
   Text,
+  Image,
   StyleSheet
 } from 'react-native'
 
 import TransitionButton from 'src/components/TransitionButton'
-
-import SessionGraph from './SessionGraph'
 
 import mainStyles, { constants } from 'src/styles'
 
@@ -17,10 +16,8 @@ export default function (props) {
   return (
     <View style={[mainStyles.centeredContainer, styles.container]}>
       <View style={styles.graphs}>
-        <Text style={styles.text}>
-          STATS
-        </Text>
-        <SessionGraph />
+        <Image source={require('src/assets/session-last.png')} style={styles.sessionLast} />
+        <Image source={require('src/assets/stats_last.png')} style={styles.statsLast} />
       </View>
       <TransitionButton onPress={props.meditate} direction="down">
         Go back

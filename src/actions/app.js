@@ -6,6 +6,10 @@ const {
   APP_STARTUP_COMPLETE,
   CHANGE_BACKGROUND,
   LOAD_PERSISTENT_APP_STATE,
+  START_MEDITATION_SESSION,
+  END_MEDITATION_SESSION,
+  SCAN_FOR_DEVICES,
+  HEARTBEAT,
 
   NAV_MEDITATE,
   NAV_STATS
@@ -108,6 +112,44 @@ export function goToMeditate () {
 export function goToStats () {
   return {
     type: NAV_STATS
+  }
+}
+
+export function toggleMeditationSession(on = false) {
+  return function (dispatch, getState) {
+    const state = getState()
+    if (on && !state.app_state.is_meditation_ongoing) {
+      dispatch({
+        type: START_MEDITATION_SESSION
+      })
+      // TODO: start listening to HRV values
+    } else if (!on && state.app_state.is_meditation_ongoing) {
+
+      // TODO: Detatch HRV listener
+      dispatch({
+        type: END_MEDITATION_SESSION
+      })
+    }
+  }
+}
+
+export function scanForDevices () {
+  return function (dispatch, getState) {
+    const state = getState()
+    // listen to HR and dispatch
+    if (!state.app_state.is_connecting_to_hr) {
+      // TODO: replace with real heartbeat signal
+      setInterval(() => {
+        dispatch({
+          type: HEARTBEAT,
+          payload: Date.now()
+        })
+      }, 1000)
+    }
+
+    dispatch({
+      type: SCAN_FOR_DEVICES
+    })
   }
 }
 

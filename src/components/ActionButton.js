@@ -6,7 +6,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  Animated
 } from 'react-native'
 
 const heartActive = require('src/assets/heart.png')
@@ -75,7 +76,10 @@ export default class ActionButton extends Component {
 
   renderHeart() {
     if (this.props.selected) {
-      return <Image source={heartActive} style={styles.heartActive} />
+      return (
+        <Animated.Image
+          source={heartActive}
+          style={[styles.heartActive, {transform: [{scale: this.props.bounce || 1.0}]} ]} />)
     } else {
       return <Image source={heartInactive} style={styles.heartInactive} />
     }
