@@ -54,6 +54,7 @@ export default class SelectDevice extends Component {
         <ListView 
         dataSource = {this.state.dataSource}
         renderRow = {this.renderRow}
+        enableEmptySections={true}
         />
       </View>
     )
