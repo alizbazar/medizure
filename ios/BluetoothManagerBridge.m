@@ -12,5 +12,6 @@
 @interface RCT_EXTERN_MODULE(BluetoothManager, NSObject)
 
 RCT_EXTERN_METHOD(scanForDevices)
+RCT_EXTERN_METHOD(connectDevice:(NSString *)name uuid:(NSString *)uuid)
 
 @end

@@ -58,6 +58,11 @@ class BluetoothManager:
     centralManager = CBCentralManager(delegate: self, queue: nil)
   }
   
+  @objc(connectDevice:uuid:)
+  func connectDevice(name: String, uuid: String) -> Void {
+    NSLog("Connecting to \(name)")
+  }
+
   // State updated
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
     centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -70,7 +75,9 @@ class BluetoothManager:
     NSLog("NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
     deviceName = peripheral.name
 
-    bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name, "uuid": peripheral.identifier.uuidString ])
+    if ((peripheral.name) != nil) {
+      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name, "uuid": peripheral.identifier.uuidString ])
+    }
 
 
 //            if acceptedDevices.contains(peripheralName) {
