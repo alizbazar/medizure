@@ -7,7 +7,7 @@ import {
   NativeAppEventEmitter
 } from 'react-native'
 const {
-  CalendarManager: BluetoothHR
+  BluetoothManager: BluetoothHR
 } = NativeModules
 
 const {
