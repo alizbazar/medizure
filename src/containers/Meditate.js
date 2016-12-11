@@ -5,18 +5,22 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import React, { Component } from 'react'
+import Video from 'react-native-video'
+
+import { GUIDED_MEDITATIONS } from 'src/constants'
 
 import MeditateComponent from 'src/components/Meditate'
 import * as appActions from 'src/actions/app'
 
 class Meditate extends Component {
+
   constructor(props) {
     super(props)
 
     this.state = {
       meditationOngoing: false,
       timer: null,
-      durationLeftInSec: 0,
+      currentTimeInSec: 0,
       totalDurationInSec: 0
     }
   }
@@ -28,42 +32,99 @@ class Meditate extends Component {
     }
   }
 
-  start(duration) {
-    const durationInSec = duration * 60
-    this.props.toggleMeditationSession(true)
-    this.setState({
-      durationLeftInSec: durationInSec,
-      totalDurationInSec: durationInSec,
-      timer: setInterval(() => {
-        const nextVal = (this.state.durationLeftInSec - 1)
-        this.setState({
-          durationLeftInSec: nextVal
-        })
-        if (nextVal <= 0) {
-          return this.finish()
-        }
-      }, 1000)
-    })
+  static requireAudio(selectedGuidedMeditation) {
+    if (selectedGuidedMeditation.source) {
+      return selectedGuidedMeditation.source
+    }
+    return {
+      uri: selectedGuidedMeditation.url
+    }
   }
 
-  finish () {
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.selectedGuidedMeditation && newProps.selectedGuidedMeditation !== this.props.selectedGuidedMeditation) {
+
+  //   }
+  // }
+
+  onLoad = (data, ...args) => {
+    this.setState({totalDurationInSec: data.duration});
+    console.log('LOAD', data, ...args)
+  };
+
+  onLoadStart = (...args) => {
+    console.log('LOAD_START', args)
+  };
+
+  onProgress = (data) => {
+    this.setState({
+      currentTimeInSec: data.currentTime
+    })
+  };
+
+  onEnd = () => this.finish();
+
+  start(duration) {
+    this.props.toggleMeditationSession(true)
+    if (!this.props.selectedGuidedMeditation) {
+      const durationInSec = duration * 60
+      this.setState({
+        currentTimeInSec: 0,
+        totalDurationInSec: durationInSec,
+        timer: setInterval(() => {
+          const nextVal = (this.state.currentTimeInSec + 1)
+          this.setState({
+            currentTimeInSec: nextVal
+          })
+          if ((this.state.totalDurationInSec - nextVal) <= 0) {
+            return this.finish()
+          }
+        }, 1000)
+      })
+    }
+  }
+
+  finish() {
     clearInterval(this.state.timer)
     this.props.toggleMeditationSession(false)
     this.props.goToStats()
     this.setState({
       timer: null,
-      durationLeftInSec: 0
     })
   }
 
+  renderPlayer() {
+    return (
+      <Video
+        ref={(ref) => {
+          this.player = ref
+        }}
+        source={Meditate.requireAudio(GUIDED_MEDITATIONS[this.props.selectedGuidedMeditation])}
+        style={{width: 0, height: 0, opacity: 0}}
+        rate={1.0}
+        paused={!this.props.meditationOngoing}
+        volume={1.0}
+        muted={false}
+        onLoad={this.onLoad}
+        onLoadStart={this.onLoadStart}
+        onProgress={this.onProgress}
+        onEnd={this.onEnd}
+        repeat={false}
+      />
+    )
+  }
+
   render() {
-    const progress = this.props.meditationOngoing ? (this.state.durationLeftInSec / this.state.totalDurationInSec) : 0
+    const timeLeft = this.state.totalDurationInSec ? (this.state.totalDurationInSec - this.state.currentTimeInSec) : 0.0
+    const progress = this.state.totalDurationInSec ? ( timeLeft / this.state.totalDurationInSec ) : 1.0
+
     return (
       <MeditateComponent
         progress={progress}
         onStart={duration => this.start(duration)}
         onFinish={() => this.finish()}
         stats={this.props.stats}
+        currentTime={timeLeft || null}
 
         {..._.pick(this.props, [
           'scanForDevices',
@@ -71,7 +132,11 @@ class Meditate extends Component {
           'isConnectingToHR',
           'lastHrTimestamp'
         ])}
-      />
+      >
+
+        { this.props.selectedGuidedMeditation ? this.renderPlayer() : null }
+
+      </MeditateComponent>
     )
   }
 }
@@ -80,7 +145,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     lastHrTimestamp: state.app_state.last_hr_timestamp,
     isConnectingToHR: state.app_state.is_connecting_to_hr,
-    meditationOngoing: state.app_state.is_meditation_ongoing
+    meditationOngoing: state.app_state.is_meditation_ongoing,
+    selectedGuidedMeditation: state.app_state.selected_guided_meditation
   }
 }
 

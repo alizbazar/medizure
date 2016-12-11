@@ -12,11 +12,19 @@ const actions = {}
   'SCAN_FOR_DEVICES',
 
   'NAV_MEDITATE',
-  'NAV_STATS'
+  'NAV_STATS',
+
+  'SELECT_GUIDED_MEDITATION'
 
   // SPECIAL CONSTANTS USED IN STATE
 ].forEach(name => { actions[name] = name })
 
 module.exports = Object.assign({
-  APP_VERSION: '0.1.0'
+  APP_VERSION: '0.1.0',
+  GUIDED_MEDITATIONS: {
+    'testclip': {
+      source: require('src/assets/meditations/testclip.mp3'),
+      title: 'Test Meditation'
+    }
+  }
 }, actions)

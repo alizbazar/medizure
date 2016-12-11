@@ -3,14 +3,16 @@ const {
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
   SCAN_FOR_DEVICES,
-  HEARTBEAT
+  HEARTBEAT,
+  SELECT_GUIDED_MEDITATION
 } = require('src/constants')
 
 const initialState = {
   app_startup_complete: false,
   is_meditation_ongoing: false,
   is_connecting_to_hr: false,
-  last_hr_timestamp: null
+  last_hr_timestamp: null,
+  selected_guided_meditation: 'testclip'
 }
 
 export default function (currentstate = initialState, action) {
@@ -39,6 +41,11 @@ export default function (currentstate = initialState, action) {
     case HEARTBEAT:
       return Object.assign({}, currentstate, {
         last_hr_timestamp: action.payload
+      })
+
+    case SELECT_GUIDED_MEDITATION:
+      return Object.assign({}, currentstate, {
+        selected_guided_meditation: action.payload
       })
 
     default:

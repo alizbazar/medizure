@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5000F9AA1DEA076000B76771 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5016ACE71DEA065600F7A174 /* libRCTAnimation.a */; };
 		5000FA001DEA680F00B76771 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5000F9EC1DEA67F500B76771 /* libART.a */; };
+		50DC91081DFE05D60043D3B2 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DC91071DFE05D10043D3B2 /* libRCTVideo.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83AAEF8F1DFD66FD007920E1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */; };
 		83AAEF911DFD6A21007920E1 /* BluetoothManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */; };
@@ -163,6 +164,13 @@
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
+		50DC91061DFE05D10043D3B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50DC91021DFE05D10043D3B2 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -202,6 +210,7 @@
 		5000F9E71DEA67F500B76771 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		5016ACE01DEA065600F7A174 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5032CB381DE8E6AE00EE2068 /* Medizure-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Medizure-Bridging-Header.h"; sourceTree = "<group>"; };
+		50DC91021DFE05D10043D3B2 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
@@ -221,6 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DC91081DFE05D60043D3B2 /* libRCTVideo.a in Frameworks */,
 				5000FA001DEA680F00B76771 /* libART.a in Frameworks */,
 				5000F9AA1DEA076000B76771 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -359,6 +369,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		50DC91031DFE05D10043D3B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50DC91071DFE05D10043D3B2 /* libRCTVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +389,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				50DC91021DFE05D10043D3B2 /* RCTVideo.xcodeproj */,
 				5000F9E71DEA67F500B76771 /* ART.xcodeproj */,
 				5016ACE01DEA065600F7A174 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -532,6 +551,10 @@
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
 				},
 				{
+					ProductGroup = 50DC91031DFE05D10043D3B2 /* Products */;
+					ProjectRef = 50DC91021DFE05D10043D3B2 /* RCTVideo.xcodeproj */;
+				},
+				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
@@ -673,6 +696,13 @@
 			fileType = archive.ar;
 			path = "libReact-tvOS.a";
 			remoteRef = 5032CB581DE8E6B000EE2068 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50DC91071DFE05D10043D3B2 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 50DC91061DFE05D10043D3B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {

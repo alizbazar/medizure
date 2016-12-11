@@ -104,6 +104,18 @@ export default class Meditate extends Component {
     return (val - MIN_DURATION) / (MAX_DURATION - MIN_DURATION);
   }
 
+
+
+  static convertSecToTime(timeInSec) {
+    const timeInMin = timeInSec / 60
+    const min = Math.floor(timeInMin)
+    let sec = Math.round(timeInSec - min * 60)
+    if (sec < 10) {
+      sec = `0${sec}`
+    }
+    return `${min}:${sec}`
+  }
+
   toggle () {
     if (this.props.meditationOngoing) {
       this.props.onFinish()
@@ -113,14 +125,8 @@ export default class Meditate extends Component {
   }
 
   getTime() {
-    if (this.props.meditationOngoing) {
-      const timeLeft = this.props.progress * this.state.selectedDuration
-      const min = Math.floor(timeLeft)
-      let sec = Math.round((timeLeft - min) * 60)
-      if (sec < 10) {
-        sec = `0${sec}`
-      }
-      return `${min}:${sec}`
+    if (this.props.currentTime) {
+      return Meditate.convertSecToTime(this.props.currentTime)
     } else {
       return this.state.selectedDuration + ':00'
     }
@@ -209,6 +215,8 @@ export default class Meditate extends Component {
         { this.props.meditationOngoing ? this.renderMeditationFooter() : this.renderFooter() }
 
         { this.state.guidedMeditationSelectorDisplayed ? this.renderGuidanceSelector() : null}
+
+        { this.props.children || null }
       </View>
     )
   }

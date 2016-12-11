@@ -25,6 +25,7 @@
     "react": "15.4.1",
     "react-native": "0.38.0",
     "react-native-progress": "^3.1.0",
+    "react-native-video": "github:react-native-community/react-native-video#dbaea9c0ebf32d8e6f0066d9e02268fb8bdebdf5",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0"
