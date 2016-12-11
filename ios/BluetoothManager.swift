@@ -1,11 +1,11 @@
-//  CalendarManager.swift
+//  BluetoothManager.swift
 //  Medizure
 
 import Foundation
 import CoreBluetooth
 
-@objc(CalendarManager)
-class CalendarManager:
+@objc(BluetoothManager)
+class BluetoothManager:
   NSObject,
   CBCentralManagerDelegate,
   CBPeripheralDelegate {

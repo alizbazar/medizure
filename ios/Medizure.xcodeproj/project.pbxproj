@@ -24,9 +24,9 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5000F9AA1DEA076000B76771 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5016ACE71DEA065600F7A174 /* libRCTAnimation.a */; };
 		5000FA001DEA680F00B76771 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5000F9EC1DEA67F500B76771 /* libART.a */; };
-		5032CB3A1DE8E6AE00EE2068 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5032CB391DE8E6AE00EE2068 /* CalendarManager.swift */; };
-		5032CB5C1DE8E7A500EE2068 /* CalendarManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5032CB5B1DE8E7A500EE2068 /* CalendarManagerBridge.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		83AAEF8F1DFD66FD007920E1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */; };
+		83AAEF911DFD6A21007920E1 /* BluetoothManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,10 +202,10 @@
 		5000F9E71DEA67F500B76771 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		5016ACE01DEA065600F7A174 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5032CB381DE8E6AE00EE2068 /* Medizure-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Medizure-Bridging-Header.h"; sourceTree = "<group>"; };
-		5032CB391DE8E6AE00EE2068 /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
-		5032CB5B1DE8E7A500EE2068 /* CalendarManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarManagerBridge.m; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothManagerBridge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +319,8 @@
 		13B07FAE1A68108700A75B9A /* Medizure */ = {
 			isa = PBXGroup;
 			children = (
+				83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */,
+				83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -326,8 +328,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				5032CB391DE8E6AE00EE2068 /* CalendarManager.swift */,
-				5032CB5B1DE8E7A500EE2068 /* CalendarManagerBridge.m */,
 				5032CB381DE8E6AE00EE2068 /* Medizure-Bridging-Header.h */,
 			);
 			name = Medizure;
@@ -738,10 +738,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5032CB5C1DE8E7A500EE2068 /* CalendarManagerBridge.m in Sources */,
-				5032CB3A1DE8E6AE00EE2068 /* CalendarManager.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				83AAEF911DFD6A21007920E1 /* BluetoothManagerBridge.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				83AAEF8F1DFD66FD007920E1 /* BluetoothManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,6 +780,7 @@
 				INFOPLIST_FILE = MedizureTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.medizure.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Medizure.app/Medizure";
 			};
@@ -794,6 +795,7 @@
 				INFOPLIST_FILE = MedizureTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.medizure.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Medizure.app/Medizure";
 			};
@@ -824,6 +826,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Medizure-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -851,6 +854,7 @@
 				PRODUCT_NAME = Medizure;
 				SWIFT_OBJC_BRIDGING_HEADER = "Medizure-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

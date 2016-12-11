@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { Provider } from 'react-redux'
 
-const { CalendarManager } = NativeModules
+const { BluetoothManager } = NativeModules
 
 import Routes from 'src/containers/Routes'
 
