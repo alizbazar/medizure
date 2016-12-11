@@ -14,7 +14,7 @@ const initialState = {
   is_meditation_ongoing: false,
   is_connecting_to_hr: false,
   last_hr_timestamp: null,
-  discovered_devices: []
+  discovered_devices: {}
 }
 
 export default function (currentstate = initialState, action) {
@@ -46,11 +46,14 @@ export default function (currentstate = initialState, action) {
       })
 
     case DEVICE_DISCOVERED:
-      { const discovered_devices = _.uniqBy([ ... currentstate.discovered_devices, action.payload], 'uuid')
+      if (!currentstate.discovered_devices[action.payload.uuid]) {
+        const discovered_devices = { ...currentstate.discovered_devices, [action.payload.uuid]: action.payload }
         return Object.assign({}, currentstate, {
-          discovered_devices: discovered_devices
+          discovered_devices
         })
       }
+      return currentstate
+ 
     default:
       return currentstate
   }

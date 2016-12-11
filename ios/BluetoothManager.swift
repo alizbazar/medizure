@@ -64,14 +64,14 @@ class BluetoothManager:
   }
 
   @objc(connectDevice:uuid:)
-  func connectDevice(name: String, uuid: UUID) -> Void {
+  func connectDevice(name: String, uuid: String) -> Void {
     NSLog("Connecting to \(name)...")
     deviceName = name
-    device = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first
+    device = centralManager.retrievePeripherals(withIdentifiers: [UUID(uuidString: uuid)!]).first
     if (device != nil) {
-     device!.delegate = self
-    centralManager.stopScan()
-    centralManager.connect(device!, options: nil)
+      device!.delegate = self
+      centralManager.stopScan()
+      centralManager.connect(device!, options: nil)
     }
     else {
       NSLog("Device \(name) not found!")
@@ -86,8 +86,10 @@ class BluetoothManager:
   // Peripheral discovered
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 
+    NSLog("Peripheral discovered: \(peripheral.name)")
+
     if ((peripheral.name) != nil) {
-      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name, "uuid": peripheral.identifier.uuid ])
+      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name ?? "Default device", "uuid": peripheral.identifier.uuidString ])
     }
   }
   
