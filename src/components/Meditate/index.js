@@ -10,6 +10,8 @@ import TransitionButton from 'src/components/TransitionButton'
 import ActionButton from 'src/components/ActionButton'
 
 import TimeSelector from './TimeSelector'
+import GuidedMeditations from './GuidedMeditations'
+import FadeableView from 'src/components/FadeableView'
 
 import mainStyles, { constants } from 'src/styles'
 import styles from './styles'
@@ -27,7 +29,8 @@ export default class Meditate extends Component {
       suggestedDuration: 15,
       isConnected: false,
       hrTimeout: null,
-      heartBounce: new Animated.Value(1.0)
+      heartBounce: new Animated.Value(1.0),
+      guidedMeditationSelectorDisplayed: false
     }
   }
 
@@ -123,6 +126,20 @@ export default class Meditate extends Component {
     }
   }
 
+  renderGuidanceSelector() {
+    return (
+      <FadeableView style={styles.guidedMeditationsView} fadeIn fadeOut={this.state.guidedMeditationSelectorDisplayed === 'fadeOut'}>
+        <GuidedMeditations onPress={() => {
+          this.setState({guidedMeditationSelectorDisplayed: 'fadeOut'})
+
+          setTimeout(() => {
+            this.setState({guidedMeditationSelectorDisplayed: false})
+          }, 300)
+        }} />
+      </FadeableView>
+    )
+  }
+
   renderHeader() {
     return (
       <TransitionButton onPress={this.props.stats} direction="up">
@@ -141,7 +158,7 @@ export default class Meditate extends Component {
           }
         </ActionButton>
 
-        <ActionButton selected={false}>
+        <ActionButton selected={false} onPress={() => {this.setState({guidedMeditationSelectorDisplayed: true})}}>
           Select guided meditation
         </ActionButton>
 
@@ -190,6 +207,8 @@ export default class Meditate extends Component {
         </TouchableOpacity>
 
         { this.props.meditationOngoing ? this.renderMeditationFooter() : this.renderFooter() }
+
+        { this.state.guidedMeditationSelectorDisplayed ? this.renderGuidanceSelector() : null}
       </View>
     )
   }

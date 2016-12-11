@@ -39,5 +39,13 @@ export default StyleSheet.create(scaleStylesheet({
     marginBottom: 40,
     justifyContent: 'flex-end',
     height: 200,
+  },
+
+  guidedMeditationsView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
   }
 }))
