@@ -130,7 +130,8 @@ class Meditate extends Component {
           'scanForDevices',
           'meditationOngoing',
           'isConnectingToHR',
-          'lastHrTimestamp'
+          'lastHrTimestamp',
+          'discoveredDevices'
         ])}
       >
 
@@ -146,7 +147,8 @@ const mapStateToProps = (state, ownProps) => {
     lastHrTimestamp: state.app_state.last_hr_timestamp,
     isConnectingToHR: state.app_state.is_connecting_to_hr,
     meditationOngoing: state.app_state.is_meditation_ongoing,
-    selectedGuidedMeditation: state.app_state.selected_guided_meditation
+    selectedGuidedMeditation: state.app_state.selected_guided_meditation,
+    discoveredDevices: state.app_state.discovered_devices
   }
 }
 

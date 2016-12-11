@@ -7,7 +7,7 @@ import {
   NativeAppEventEmitter
 } from 'react-native'
 const {
-  BluetoothManager: BluetoothHR
+  BluetoothManager
 } = NativeModules
 
 const {
@@ -19,6 +19,7 @@ const {
   SCAN_FOR_DEVICES,
   HEARTBEAT,
   HRV,
+  DEVICE_DISCOVERED,
 
   NAV_MEDITATE,
   NAV_STATS
@@ -180,13 +181,20 @@ export function scanForDevices () {
           payload: Date.now()
         })
       })
+      NativeAppEventEmitter.addListener('peripheralDiscovered', data => {
+        // console.log('peripheralDiscovered!')
+        // console.log(data)
+        dispatch({
+          type: DEVICE_DISCOVERED,
+          payload: data
+        })
+      })
     }
 
     dispatch({
       type: SCAN_FOR_DEVICES
     })
 
-    BluetoothHR.scanForDevices()
+    BluetoothManager.scanForDevices()
   }
 }
-

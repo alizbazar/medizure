@@ -1,10 +1,13 @@
+import _ from 'lodash'
+
 const {
   APP_STARTUP_COMPLETE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
   SCAN_FOR_DEVICES,
+  SELECT_GUIDED_MEDITATION,
   HEARTBEAT,
-  SELECT_GUIDED_MEDITATION
+  DEVICE_DISCOVERED
 } = require('src/constants')
 
 const initialState = {
@@ -12,7 +15,8 @@ const initialState = {
   is_meditation_ongoing: false,
   is_connecting_to_hr: false,
   last_hr_timestamp: null,
-  selected_guided_meditation: 'testclip'
+  selected_guided_meditation: 'testclip',
+  discovered_devices: {}
 }
 
 export default function (currentstate = initialState, action) {
@@ -48,6 +52,15 @@ export default function (currentstate = initialState, action) {
         selected_guided_meditation: action.payload
       })
 
+    case DEVICE_DISCOVERED:
+      if (!currentstate.discovered_devices[action.payload.uuid]) {
+        const discovered_devices = { ...currentstate.discovered_devices, [action.payload.uuid]: action.payload }
+        return Object.assign({}, currentstate, {
+          discovered_devices
+        })
+      }
+      return currentstate
+ 
     default:
       return currentstate
   }

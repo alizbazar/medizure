@@ -155,7 +155,7 @@ export default StyleSheet.create({
   // Standard components
 
   topDownContainer: {
-    // backgroundColor: constants.colors.background,
+    backgroundColor: constants.colors.background,
     alignItems: 'stretch',
     flex: 1,
     flexDirection: 'column',
@@ -165,7 +165,7 @@ export default StyleSheet.create({
   },
 
   scrollableView: {
-    // backgroundColor: constants.colors.background,
+    backgroundColor: constants.colors.background,
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'nowrap',

@@ -10,138 +10,153 @@ class BluetoothManager:
   CBCentralManagerDelegate,
   CBPeripheralDelegate {
   
-  var rr_mock_data = [Float](arrayLiteral: 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.78, 0.9, 0.77, 0.83, 0.85, 0.80, 0.3, 0.78, 0.9, 0.77, 0.83)
-
-  var centralManager : CBCentralManager!
-  var acceptedDevices = ["Suunto Smart Sensor", "Polar H7 BFC08211"]
-  var deviceName:String?
-  var device:CBPeripheral?
+  var centralManager: CBCentralManager!
+  var deviceName: String?
+  var device: CBPeripheral?
   var bridge: RCTBridge!
 
   var heartRate = 0
-  var rMSSD: Double = 0.0
+  var rMSSDcurrent: Float = 0.0
   var sensorDetected = false
-  var energyExpended:Int?
+  var energyExpended: Int?
   var rrIntervals = [Float]()
-  var lastTick: Int = 0
 
-  func calcrMSSD(rrList: [Float], samples: Int) -> Double {
+  // The amount of time used for rMSSD measurement
+  let MEASURE_TIME_S: Float = 60.0
 
-    var rMSSD: Double = 0.0
-    var n: Int = samples
+
+  func calcrMSSD(rrList: [Float]) -> Float {
+
+    var rMSSD: Float = 0.0
+    var n: Int = 0
 
     // ASSUME THAT INTERVALS ARE IN SECONDS -> CONVERT TO MS
     let rr = rrList.map{ $0 * 1000.0 }
 
-    // Iterate the last samples RR intervals in reverse
-    var prev = rr.last!
-    for interval in rr.suffix(samples).reversed() {
+    // Iterate the RR intervals
+    var prev = rr.first!
+    for interval in rr.suffix(rr.count - 1) {
 
       // Discard values that differ more than 20% from the previous value
       if (abs(prev - interval) > (prev * 0.2)) {
-        n -= 1
         continue
       }
 
       // Sum of squares
-      rMSSD += Double((interval - prev) * (interval - prev))
+      rMSSD += Float((interval - prev) * (interval - prev))
+      n += 1
       prev = interval
     }
 
-    // Return the averaged and squared rMSSD
-    return sqrt(rMSSD * (1.0 / Double(n)))
+    // Return the averaged and square-rooted rMSSD
+    return sqrt(rMSSD / Float(n))
   }
   
+
   @objc(scanForDevices)
   func scanForDevices() -> Void {
-    centralManager = CBCentralManager(delegate :self, queue: nil)
+    centralManager = CBCentralManager(delegate: self, queue: nil)
   }
   
+  @objc(stopScan)
+  func stopScan() -> Void {
+    centralManager.stopScan()
+  }
+
+  @objc(connectDevice:uuid:)
+  func connectDevice(name: String, uuid: String) -> Void {
+    NSLog("Connecting to \(name)...")
+    deviceName = name
+    device = centralManager.retrievePeripherals(withIdentifiers: [UUID(uuidString: uuid)!]).first
+    if (device != nil) {
+      device!.delegate = self
+      centralManager.stopScan()
+      centralManager.connect(device!, options: nil)
+    }
+    else {
+      NSLog("Device \(name) not found!")
+    }
+  }
+
+  // State updated
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
     centralManager.scanForPeripherals(withServices: nil, options: nil)
   }
   
+  // Peripheral discovered
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-    print("centralManager didDiscoverPeripheral - CBAdvertisementDataLocalNameKey is \"\(CBAdvertisementDataLocalNameKey)\"")
-    
-    if let peripheralName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
-      print("NEXT PERIPHERAL NAME: \(peripheralName)")
-      print("NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
-      
-            if acceptedDevices.contains(peripheralName) {
-              deviceName = peripheralName
-              print("Device found")
-              centralManager.stopScan()
-              device = peripheral
-              device!.delegate = self
-              centralManager.connect(device!, options: nil)
-            }
+
+    NSLog("Peripheral discovered: \(peripheral.name)")
+
+    if ((peripheral.name) != nil) {
+      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name ?? "Default device", "uuid": peripheral.identifier.uuidString ])
     }
   }
   
+  // Peripheral connected
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-    print("**** SUCCESSFULLY CONNECTED TO \(deviceName) !!!")
+    NSLog("**** SUCCESSFULLY CONNECTED TO \(deviceName) !!!")
     peripheral.discoverServices(nil)
-    //    // - NOTE:  we pass nil here to request ALL services be discovered.
-    //    //          If there was a subset of services we were interested in, we could pass the UUIDs here.
-    //    //          Doing so saves battery life and saves time.
+    // - NOTE:  we pass nil here to request ALL services be discovered.
+    //          If there was a subset of services we were interested in, we could pass the UUIDs here.
+    //          Doing so saves battery life and saves time.
   }
   
+
+  // Service discovered
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
     if error != nil {
-      print("ERROR DISCOVERING SERVICES: \(error?.localizedDescription)")
+      NSLog("ERROR DISCOVERING SERVICES: \(error?.localizedDescription)")
       return
     }
-    print("Services found")
+    NSLog("Services found")
     
     // Core Bluetooth creates an array of CBService objects —- one for each service that is discovered on the peripheral.
     if let services = peripheral.services {
       for service in services {
-        print("Discovered service \(service)")
+        NSLog("Discovered service \(service)")
         peripheral.discoverCharacteristics(nil, for: service)
       }
     }
   }
+
+
+  // Characteristics discovered
   func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
     if error != nil {
-      print("ERROR DISCOVERING CHARACTERISTICS: \(error?.localizedDescription)")
+      NSLog("ERROR DISCOVERING CHARACTERISTICS: \(error?.localizedDescription)")
       return
     }
     
     if let characteristics = service.characteristics {
       for characteristic in characteristics {
-        print(characteristic)
-//        peripheral.setNotifyValue(true, for: characteristic)
-//        peripheral.readValue(for: characteristic)
         if (characteristic.uuid == CBUUID(string: "2A37")) {
           peripheral.setNotifyValue(true, for: characteristic)
         }
       }
     }
   }
+  
+  
+  // Characteristics value updated
   func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
     if error != nil {
-      print("ERROR ON UPDATING VALUE FOR CHARACTERISTIC: \(characteristic) - \(error?.localizedDescription)")
+      NSLog("ERROR ON UPDATING VALUE FOR CHARACTERISTIC: \(characteristic) - \(error?.localizedDescription)")
       return
     }
     if (characteristic.uuid == CBUUID(string: "2A37")) {
-      print(characteristic)
-      print(characteristic.value!)
-      print(characteristic.properties)
-      print(characteristic.uuid)
       getHeartRateMeasurementData(hrmData: characteristic.value! as NSData)
-      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: [ "rate": heartRate ])
-      if (rrIntervals.count > (lastTick + 30)) {
-        lastTick = rrIntervals.count
-        rMSSD = calcrMSSD(rrList: rrIntervals, samples: 30)
-        bridge.eventDispatcher().sendAppEvent(withName: "rMSSDTick", body: [ "rMSSD": rMSSD ])
+      if (rrIntervals.reduce(0,+) >= MEASURE_TIME_S) {
+        rMSSDcurrent = calcrMSSD(rrList: rrIntervals)
       }
+      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: ["rate": heartRate, "rMSSD": rMSSDcurrent])
     }
   }
-  
+
+
+  // Heart rate parsing
   private func getHeartRateMeasurementData(hrmData: NSData)
   {
-    print(hrmData)
     // Maintain an index into the measurement data of the next byte to read.
     var byteIndex = 0
     
@@ -154,10 +169,8 @@ class BluetoothManager:
       hrmData.getBytes(&value, range: NSMakeRange(byteIndex, MemoryLayout<UInt16>.size))
       byteIndex += MemoryLayout<UInt16>.size
       heartRate = Int(value)
-      print("Täällä, flag 16")
     }
     else {
-      print("Täällä flag 8")
       var value: UInt8 = 0
       hrmData.getBytes(&value, range: NSMakeRange(byteIndex, MemoryLayout<UInt8>.size))
       byteIndex += MemoryLayout<UInt8>.size
@@ -180,7 +193,12 @@ class BluetoothManager:
         var value: UInt16 = 0
         hrmData.getBytes(&value, range: NSMakeRange(byteIndex, MemoryLayout<UInt16>.size))
         byteIndex += MemoryLayout<UInt16>.size
+        NSLog("RR interval sum: \(rrIntervals.reduce(0, +))")
+        while (rrIntervals.reduce(0, +) > MEASURE_TIME_S) {
+          rrIntervals.removeFirst()
+        }
         rrIntervals.append(Float(value) / 1024.0)
+        bridge.eventDispatcher().sendAppEvent(withName: "rrInterval", body: ["interval": Float(value) / 1024.0])
       }
     }
     
@@ -191,7 +209,7 @@ class BluetoothManager:
     }
     NSLog("RR Intervals: \(rrIntervals)")
   }
-  
+
   private enum HeartRateMeasurement: UInt8 {
     case HeartRateValueFormatUInt8  = 0b00000000
     case HeartRateValueFormatUInt16 = 0b00000001
