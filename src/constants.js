@@ -10,6 +10,7 @@ const actions = {}
   'HEARTBEAT',
   'HRV',
   'SCAN_FOR_DEVICES',
+  'DEVICE_DISCOVERED',
 
   'NAV_MEDITATE',
   'NAV_STATS'
