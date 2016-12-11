@@ -7,7 +7,7 @@ import {
   NativeAppEventEmitter
 } from 'react-native'
 const {
-  BluetoothManager: BluetoothHR
+  BluetoothManager
 } = NativeModules
 
 const {
@@ -186,7 +186,7 @@ export function scanForDevices () {
       type: SCAN_FOR_DEVICES
     })
 
-    BluetoothHR.scanForDevices()
+    BluetoothManager.scanForDevices()
   }
 }
 
