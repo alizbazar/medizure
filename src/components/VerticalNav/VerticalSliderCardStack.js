@@ -305,12 +305,26 @@ class SliderCardStack extends React.Component<DefaultProps, Props, void> {
       panHandlers = VerticalNavigationCardStackPanResponder.forVertical(panHandlersProps);
     }
 
+
+    /*
+    Render only scenes that are visible right now
+    (props.position._value seems to have the index of the exiting scene,
+    until it has gone completely out of view)
+     */
+    let renderScene
+    if (props.scene.index > Math.max(props.navigationState.index, props.position._value) ||
+        props.scene.index < Math.min(props.navigationState.index, props.position._value)) {
+      renderScene = () => <View />
+    } else {
+      renderScene = this.props.renderScene
+    }
+
     return (
       <NavigationCard
         {...props}
         key={'card_' + props.scene.key}
         panHandlers={panHandlers}
-        renderScene={this.props.renderScene}
+        renderScene={renderScene}
         style={[style, this.props.cardStyle]}
       />
     );
