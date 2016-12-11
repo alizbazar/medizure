@@ -58,9 +58,24 @@ class BluetoothManager:
     centralManager = CBCentralManager(delegate: self, queue: nil)
   }
   
+  @objc(stopScan)
+  func stopScan() -> Void {
+    centralManager.stopScan()
+  }
+
   @objc(connectDevice:uuid:)
-  func connectDevice(name: String, uuid: String) -> Void {
-    NSLog("Connecting to \(name)")
+  func connectDevice(name: String, uuid: UUID) -> Void {
+    NSLog("Connecting to \(name)...")
+    deviceName = name
+    device = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first
+    if (device != nil) {
+     device!.delegate = self
+    centralManager.stopScan()
+    centralManager.connect(device!, options: nil)
+    }
+    else {
+      NSLog("Device \(name) not found!")
+    }
   }
 
   // State updated
@@ -70,25 +85,10 @@ class BluetoothManager:
   
   // Peripheral discovered
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-    
-    NSLog("NEXT PERIPHERAL NAME: \(peripheral.name)")
-    NSLog("NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
-    deviceName = peripheral.name
 
     if ((peripheral.name) != nil) {
-      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name, "uuid": peripheral.identifier.uuidString ])
+      bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name, "uuid": peripheral.identifier.uuid ])
     }
-
-
-//            if acceptedDevices.contains(peripheralName) {
-//              deviceName = peripheralName
-//              NSLog("Device found")
-//              centralManager.stopScan()
-//              device = peripheral
-//              device!.delegate = self
-//              centralManager.connect(device!, options: nil)
-//            }
-//    }
   }
   
   // Peripheral connected
@@ -147,7 +147,7 @@ class BluetoothManager:
       if (rrIntervals.reduce(0,+) >= MEASURE_TIME_S) {
         rMSSDcurrent = calcrMSSD(rrList: rrIntervals)
       }
-      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: ["rate": heartRate, "rMSSD": rMSSDcurrent, "rrIntervals": rrIntervals.last! ])
+      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: ["rate": heartRate, "rMSSD": rMSSDcurrent])
     }
   }
 
@@ -196,6 +196,7 @@ class BluetoothManager:
           rrIntervals.removeFirst()
         }
         rrIntervals.append(Float(value) / 1024.0)
+        bridge.eventDispatcher().sendAppEvent(withName: "rrInterval", body: ["interval": Float(value) / 1024.0])
       }
     }
     
