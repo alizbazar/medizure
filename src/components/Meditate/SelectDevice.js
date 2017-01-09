@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import styles from 'src/styles.js'
+import styles from './styles.js'
 import React, {
   Component
 } from 'react'
@@ -30,6 +30,7 @@ export default class SelectDevice extends Component {
       dataSource: ds.cloneWithRows(discoveredDevices)
     };
   }
+
   componentWillReceiveProps(newProps) {
     if (this.props.discoveredDevices !== newProps.discoveredDevices) {
       const discoveredDevices = _.values(this.props.discoveredDevices)
@@ -39,19 +40,36 @@ export default class SelectDevice extends Component {
     }
   }
 
-  renderRow(rowData) {
-    return <TouchableOpacity onPress={() => { BluetoothManager.connectDevice(rowData.name, rowData.uuid) }}>
-      <Text>
-        {rowData.name}
-      </Text>
-    </TouchableOpacity>
+  renderHeader() {
+    return (
+      <View style={styles.deviceSelectorRow}>
+        <Text style={styles.deviceSelectorText}>Select bluetooth device:</Text>
+      </View>
+      )
   }
 
-  render() {
-    console.log('SelectDevice')
+  onPressSelection = (rdata) => {
+    BluetoothManager.connectDevice(rdata.name, rdata.uuid)
+    this.props.closeView()
+  };
+
+  renderRow = (rowData) => {
     return (
-      <View>
+    <TouchableOpacity onPress={ () => this.onPressSelection(rowData) }>
+      <View style={styles.deviceSelectorRow}>
+        <Text style={styles.deviceSelectorText}>
+          {rowData.name}
+        </Text>
+      </View>
+    </TouchableOpacity>
+    )
+  };
+
+  render() {
+    return (
+      <View style={styles.deviceSelector}>
         <ListView 
+        renderHeader = {this.renderHeader}
         dataSource = {this.state.dataSource}
         renderRow = {this.renderRow}
         enableEmptySections={true}

@@ -47,5 +47,21 @@ export default StyleSheet.create(scaleStylesheet({
     left: 0,
     right: 0,
     bottom: 0
-  }
+  },
+
+  deviceSelectorRow: {
+    padding: 12,
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  deviceSelectorText: {
+    fontSize: 25,
+  },
+
+  deviceSelector: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 30,
+  },
 }))

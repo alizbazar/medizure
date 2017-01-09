@@ -87,7 +87,7 @@ export default class ActionButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity style={styles.touchableArea} onPress={this.props.onPress} activeOpacity={constants.helpers.touchableOpacity}>
+      <TouchableOpacity onPress={this.props.onPress} activeOpacity={constants.helpers.touchableOpacity}>
         <View style={[styles.button, this.props.selected ? styles.buttonSelected : null]}>
           {this.props.heart ? this.renderHeart() : null}
           <Text style={[styles.label, this.props.selected ? styles.labelSelected : null]}>

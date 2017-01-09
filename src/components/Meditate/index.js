@@ -76,7 +76,7 @@ export default class Meditate extends Component {
   bounceHeart() {
     // console.log('BOUNCE')
       this.state.heartBounce.setValue(0.7),
-    Animated.spring(
+      Animated.spring(
       this.state.heartBounce,
       {
         friction: 7,
@@ -138,7 +138,7 @@ export default class Meditate extends Component {
     console.log('renderDeviceSelector')
     return (
       <FadeableView style={styles.guidedMeditationsView} fadeIn fadeOut={this.state.deviceSelectorDisplayed === 'fadeOut'}>
-        <SelectDevice discoveredDevices={this.props.discoveredDevices} />
+        <SelectDevice discoveredDevices={this.props.discoveredDevices} closeView={ () => { this.setState({deviceSelectorDisplayed: false}) }} />
       </FadeableView>
     )
   }

@@ -9,10 +9,10 @@ import Video from 'react-native-video'
 
 import { GUIDED_MEDITATIONS } from 'src/constants'
 
-import MeditateComponent from 'src/components/Meditate'
+import Meditate from 'src/components/Meditate'
 import * as appActions from 'src/actions/app'
 
-class Meditate extends Component {
+class MeditateContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -99,7 +99,7 @@ class Meditate extends Component {
         ref={(ref) => {
           this.player = ref
         }}
-        source={Meditate.requireAudio(GUIDED_MEDITATIONS[this.props.selectedGuidedMeditation])}
+        source={MeditateContainer.requireAudio(GUIDED_MEDITATIONS[this.props.selectedGuidedMeditation])}
         style={{width: 0, height: 0, opacity: 0}}
         rate={1.0}
         paused={!this.props.meditationOngoing}
@@ -119,7 +119,7 @@ class Meditate extends Component {
     const progress = this.state.totalDurationInSec ? ( timeLeft / this.state.totalDurationInSec ) : 1.0
 
     return (
-      <MeditateComponent
+      <Meditate
         progress={progress}
         onStart={duration => this.start(duration)}
         onFinish={() => this.finish()}
@@ -137,7 +137,7 @@ class Meditate extends Component {
 
         { this.props.selectedGuidedMeditation ? this.renderPlayer() : null }
 
-      </MeditateComponent>
+      </Meditate>
     )
   }
 }
@@ -156,4 +156,4 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(appActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Meditate)
+export default connect(mapStateToProps, mapDispatchToProps)(MeditateContainer)
