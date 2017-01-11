@@ -1,20 +1,36 @@
 const {
   LOAD_PERSISTENT_APP_STATE,
-  CHANGE_BACKGROUND,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
   HRV
 } = require('src/constants')
 
 const initialState = {
-  history: []
+  history: [
+    {
+      started: Date.now(),
+      values: [53, 15, 25, 35, 26, 33, 63],
+    },
+    {
+      started: Date.now(),
+      values: [53, 15, 25, 35, 26, 33, 63],
+    },
+    {
+      started: Date.now(),
+      values: [53, 15, 25, 35, 26, 33, 63],
+    },
+    {
+      started: Date.now(),
+      values: [53, 15, 25, 35, 26, 33, 63],
+    },
+  ]
 }
 
 export default function (currentstate = initialState, action) {
   switch (action.type) {
 
-    case LOAD_PERSISTENT_APP_STATE:
-      return action.payload
+    // case LOAD_PERSISTENT_APP_STATE:
+    //   return action.payload
 
     case START_MEDITATION_SESSION: {
       const history = currentstate.history.slice()
@@ -67,11 +83,6 @@ export default function (currentstate = initialState, action) {
         history
       })
     }
-
-    case CHANGE_BACKGROUND:
-      return Object.assign({}, currentstate, {
-        bg_color: action.payload.color
-      })
 
     default:
       return currentstate

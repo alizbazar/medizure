@@ -1,4 +1,3 @@
-
 import {
   NavigationExperimental
 } from 'react-native'
@@ -35,6 +34,5 @@ export default function (currentstate = initialState, action) {
 
     default:
       return currentstate
-
   }
 }

@@ -85,9 +85,7 @@ class BluetoothManager:
   
   // Peripheral discovered
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-
     NSLog("Peripheral discovered: \(peripheral.name)")
-
     if ((peripheral.name) != nil) {
       bridge.eventDispatcher().sendAppEvent(withName: "peripheralDiscovered", body: ["name": peripheral.name ?? "Default device", "uuid": peripheral.identifier.uuidString ])
     }
@@ -96,10 +94,8 @@ class BluetoothManager:
   // Peripheral connected
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     NSLog("**** SUCCESSFULLY CONNECTED TO \(deviceName) !!!")
-    peripheral.discoverServices(nil)
-    // - NOTE:  we pass nil here to request ALL services be discovered.
-    //          If there was a subset of services we were interested in, we could pass the UUIDs here.
-    //          Doing so saves battery life and saves time.
+    // Discover only heart rate services "180D"
+    peripheral.discoverServices([CBUUID(string: "180D")])
   }
   
 

@@ -1,6 +1,4 @@
-import _ from 'lodash'
-
-const {
+import {
   APP_STARTUP_COMPLETE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
@@ -8,7 +6,7 @@ const {
   SELECT_GUIDED_MEDITATION,
   HEARTBEAT,
   DEVICE_DISCOVERED
-} = require('src/constants')
+} from 'src/constants'
 
 const initialState = {
   app_startup_complete: false,

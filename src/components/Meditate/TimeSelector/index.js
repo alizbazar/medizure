@@ -155,7 +155,6 @@ export default class TimeSelector extends Component {
     return (
       <View style={styles.playControl}>
         <View style={[styles.progressCircleBorder, !props.selector ? styles.progressCircleBorderPlaying : null]} />
-        <View>
           <Progress.Circle
             progress={props.selector ? this.state.selectedValue : props.progress}
             animated={!props.selector}
@@ -165,7 +164,6 @@ export default class TimeSelector extends Component {
             borderColor="transparent"
             borderWidth={0}
             style={styles.progressCircle} />
-        </View>
         <View style={styles.selectorContainer} ref={el => {
           this.selectorContainer = el
         }} onLayout={(event) => {

@@ -21,9 +21,7 @@ export default StyleSheet.create(scaleStylesheet({
     justifyContent: 'center'
   },
 
-  time: Object.assign({}, constants.text.time, {
-
-  }),
+  time: constants.text.time,
 
   timeSelectorContainer: {
     position: 'absolute',

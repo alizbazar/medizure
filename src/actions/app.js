@@ -10,12 +10,13 @@ const {
   BluetoothManager
 } = NativeModules
 
-const {
+import {
   APP_STARTUP_COMPLETE,
-  CHANGE_BACKGROUND,
   LOAD_PERSISTENT_APP_STATE,
+
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
+
   SCAN_FOR_DEVICES,
   HEARTBEAT,
   HRV,
@@ -23,7 +24,7 @@ const {
 
   NAV_MEDITATE,
   NAV_STATS
-} = require('src/constants')
+} from 'src/constants'
 
 import { asyncStore } from 'src/lib/async-store'
 import { observeStore } from 'src/lib/store-observer'
@@ -98,21 +99,6 @@ export function appStart () {
   }
 }
 
-export function changeColor () {
-  return function (dispatch, getState) {
-    const state = getState()
-
-    const color = state.persistent_app_state.bg_color === 'lightblue' ? 'pink' : 'lightblue'
-
-    dispatch({
-      type: CHANGE_BACKGROUND,
-      payload: {
-        color
-      }
-    })
-  }
-}
-
 export function goToMeditate () {
   return {
     type: NAV_MEDITATE
@@ -145,7 +131,6 @@ export function toggleMeditationSession(on = false) {
           }
         })
       })
-      // TODO: start listening to HRV values
     } else if (!on && state.app_state.is_meditation_ongoing) {
       if (HRVsubscription) {
         HRVsubscription.remove()
@@ -165,15 +150,8 @@ export function toggleMeditationSession(on = false) {
 export function scanForDevices () {
   return function (dispatch, getState) {
     const state = getState()
-    // listen to HR and dispatch
+
     if (!state.app_state.is_connecting_to_hr) {
-      // // TODO: replace with real heartbeat signal
-      // setInterval(() => {
-      //   dispatch({
-      //     type: HEARTBEAT,
-      //     payload: Date.now()
-      //   })
-      // }, 1000)
 
       NativeAppEventEmitter.addListener('HeartRateTick', data => {
         dispatch({
@@ -182,8 +160,6 @@ export function scanForDevices () {
         })
       })
       NativeAppEventEmitter.addListener('peripheralDiscovered', data => {
-        // console.log('peripheralDiscovered!')
-        // console.log(data)
         dispatch({
           type: DEVICE_DISCOVERED,
           payload: data

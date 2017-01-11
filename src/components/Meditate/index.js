@@ -106,8 +106,6 @@ export default class Meditate extends Component {
     return (val - MIN_DURATION) / (MAX_DURATION - MIN_DURATION);
   }
 
-
-
   static convertSecToTime(timeInSec) {
     const timeInMin = timeInSec / 60
     const min = Math.floor(timeInMin)

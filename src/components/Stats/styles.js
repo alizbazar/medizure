@@ -8,25 +8,17 @@ export default StyleSheet.create(scaleStylesheet({
   text: Object.assign({}, constants.text.label, {
     color: constants.colors.highlight
   }),
-
   container: {
     justifyContent: 'flex-start',
     backgroundColor: constants.colors.invertedBackground,
   },
-
-  graphs: {
+  results: {
     flex: 1,
-    justifyContent: 'center',
+    borderWidth: 1,
+    alignSelf: 'stretch',
+    flexDirection: 'column',
   },
-
-  sessionLast: {
-    width: 340,
-    height: 246
+  transitionButton: {
+    height: 100,
   },
-
-  statsLast: {
-    marginTop: 10,
-    width: 342,
-    height: 240
-  }
 }))

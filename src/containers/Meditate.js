@@ -41,12 +41,6 @@ class MeditateContainer extends Component {
     }
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.selectedGuidedMeditation && newProps.selectedGuidedMeditation !== this.props.selectedGuidedMeditation) {
-
-  //   }
-  // }
-
   onLoad = (data, ...args) => {
     this.setState({totalDurationInSec: data.duration});
     console.log('LOAD', data, ...args)
@@ -62,7 +56,12 @@ class MeditateContainer extends Component {
     })
   };
 
-  onEnd = () => this.finish();
+  onEnd = () => {
+    clearInterval(this.state.timer)
+    this.props.toggleMeditationSession(false)
+    this.props.goToStats()
+    this.setState({ timer: null })
+  };
 
   start(duration) {
     this.props.toggleMeditationSession(true)
@@ -77,20 +76,11 @@ class MeditateContainer extends Component {
             currentTimeInSec: nextVal
           })
           if ((this.state.totalDurationInSec - nextVal) <= 0) {
-            return this.finish()
+            return this.onEnd()
           }
         }, 1000)
       })
     }
-  }
-
-  finish() {
-    clearInterval(this.state.timer)
-    this.props.toggleMeditationSession(false)
-    this.props.goToStats()
-    this.setState({
-      timer: null,
-    })
   }
 
   renderPlayer() {
@@ -122,7 +112,7 @@ class MeditateContainer extends Component {
       <Meditate
         progress={progress}
         onStart={duration => this.start(duration)}
-        onFinish={() => this.finish()}
+        onFinish={() => this.onEnd()}
         stats={this.props.stats}
         currentTime={timeLeft || null}
 

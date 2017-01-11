@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Image
+  Image,
+  View,
 } from 'react-native'
 
 const arrowUp = require('src/assets/arrow-up.png')
@@ -42,20 +43,20 @@ const styles = StyleSheet.create({
 
 export default function (props) {
   return (
-    <TouchableOpacity style={styles.container} onPress={props.onPress} activeOpacity={constants.helpers.touchableOpacity}>
+    <TouchableOpacity onPress={props.onPress} activeOpacity={constants.helpers.touchableOpacity}>
+      <View style={styles.container}>
+        {props.direction === 'down' ? null : (
+          <Image source={arrowUp} style={styles.arrowUp} />
+        )}
 
-      {props.direction === 'down' ? null : (
-        <Image source={arrowUp} style={styles.arrowUp} />
-      )}
+        <Text style={[styles.label, props.direction === 'down' ? styles.labelDown : null]}>
+          {props.children.toUpperCase()}
+        </Text>
 
-      <Text style={[styles.label, props.direction === 'down' ? styles.labelDown : null]}>
-        {props.children.toUpperCase()}
-      </Text>
-
-      {props.direction === 'down' ? (
-        <Image source={arrowDown} style={styles.arrowDown} />
-      ) : null}
-
+        {props.direction === 'down' ? (
+          <Image source={arrowDown} style={styles.arrowDown} />
+        ) : null}
+      </View>
     </TouchableOpacity>
   )
 }

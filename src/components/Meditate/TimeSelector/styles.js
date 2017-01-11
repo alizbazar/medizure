@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native'
 import {
   constants,
   scaleStylesheet,
-  NoScaling
 } from 'src/styles'
 
 export default StyleSheet.create(scaleStylesheet({
@@ -29,9 +28,9 @@ export default StyleSheet.create(scaleStylesheet({
   progressCircleBorderPlaying: {
     borderColor: constants.colors.highlightDarker,
   },
+
   progressCircle: {
   },
-
 
   selectorContainer: {
     position: 'absolute',

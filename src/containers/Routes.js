@@ -12,6 +12,7 @@ import VerticalSliderCardStack from 'src/components/VerticalNav/VerticalSliderCa
 
 import Meditate from 'src/containers/Meditate'
 import Stats from 'src/components/Stats'
+import Results from 'src/components/Stats/Results'
 
 var styles = StyleSheet.create({
   container: {
@@ -50,7 +51,9 @@ class Routes extends Component {
     switch (sceneProps.scene.route.key) {
       case 'stats':
         return (
-          <Stats {...props} />
+          <Stats {...props}>
+            <Results history={this.props.history}/>
+          </Stats>
         )
 
       case 'meditate':
@@ -79,7 +82,8 @@ class Routes extends Component {
 
 const mapStateToProps = state => {
   return {
-    navState: state.routes
+    navState: state.routes,
+    history: state.persistent_app_state.history,
   }
 }
 

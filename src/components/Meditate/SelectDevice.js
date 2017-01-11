@@ -45,7 +45,7 @@ export default class SelectDevice extends Component {
       <View style={styles.deviceSelectorRow}>
         <Text style={styles.deviceSelectorText}>Select bluetooth device:</Text>
       </View>
-      )
+    )
   }
 
   onPressSelection = (rdata) => {
@@ -55,13 +55,13 @@ export default class SelectDevice extends Component {
 
   renderRow = (rowData) => {
     return (
-    <TouchableOpacity onPress={ () => this.onPressSelection(rowData) }>
-      <View style={styles.deviceSelectorRow}>
-        <Text style={styles.deviceSelectorText}>
-          {rowData.name}
-        </Text>
-      </View>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={ () => this.onPressSelection(rowData) }>
+        <View style={styles.deviceSelectorRow}>
+          <Text style={styles.deviceSelectorText}>
+            {rowData.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
     )
   };
 

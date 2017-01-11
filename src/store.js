@@ -7,8 +7,7 @@ const logger = store => next => action => {
   if (action.type !== 'HEARTBEAT') {
     console.log('dispatching', action.type, action)
   }
-  var result = next(action)
-  return result
+  return next(action)
 }
 
 export default applyMiddleware(thunk, logger)(createStore)(rootReducer)

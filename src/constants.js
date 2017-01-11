@@ -1,12 +1,12 @@
 const actions = {}
 ;[
-// ALL ACTIONS SHOULD BE LISTED BELOW
+  // ALL ACTIONS SHOULD BE LISTED BELOW
   'APP_STARTUP_COMPLETE',
   'LOAD_PERSISTENT_APP_STATE',
-  'CHANGE_BACKGROUND',
 
   'START_MEDITATION_SESSION',
   'END_MEDITATION_SESSION',
+
   'HEARTBEAT',
   'HRV',
   'SCAN_FOR_DEVICES',
@@ -16,8 +16,6 @@ const actions = {}
   'NAV_STATS',
 
   'SELECT_GUIDED_MEDITATION'
-
-  // SPECIAL CONSTANTS USED IN STATE
 ].forEach(name => { actions[name] = name })
 
 module.exports = Object.assign({
