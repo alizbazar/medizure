@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import styles from './styles.js'
 import React, { PureComponent } from 'react'
+import moment from 'moment'
 import {
   View,
   ListView,
@@ -21,7 +22,8 @@ export default class ResultsRow extends PureComponent {
       lastHRV: 0,
       index: 0,
       expanded: true,
-      animation: new Animated.Value()
+      animation: new Animated.Value(),
+      time: moment().format("D.M.YYYY HH:mm"),
     }
   }
 
@@ -61,7 +63,7 @@ export default class ResultsRow extends PureComponent {
       <Animated.View style={{height: this.state.animation, backgroundColor: (this.state.index % 2 == 0) ? '#ffffff' : '#f2f2f2'}}>
         <TouchableOpacity onPress={this.toggle}>
           <View style={styles.resultsRowHeader}>
-            <Text style={styles.text}>Session {this.state.index}</Text>
+            <Text style={styles.text}>Session {this.state.index} ({this.state.time})</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.resultsRow}>
