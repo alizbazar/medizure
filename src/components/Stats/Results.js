@@ -22,9 +22,9 @@ export default class Results extends Component {
     }
   }
 
-  renderRow = (rowData) => {
+  renderRow = (rowData, sectionID, rowID) => {
     return (
-      <ResultsRow data={rowData}/>
+      <ResultsRow data={rowData} index={rowID}/>
     )
   };
 

@@ -1,27 +1,67 @@
-const {
+import {
   LOAD_PERSISTENT_APP_STATE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
   HRV
-} = require('src/constants')
+} from 'src/constants'
+
+const r = function() {
+  let values = []
+  for (let i = 0; i < 10; i++) {
+    values.push(Math.random() * 100)
+  }
+  return values
+}
 
 const initialState = {
   history: [
     {
       started: Date.now(),
-      values: [53, 15, 25, 35, 26, 33, 63],
+      values: r(),
     },
     {
       started: Date.now(),
-      values: [53, 15, 25, 35, 26, 33, 63],
+      values: r(),
     },
     {
       started: Date.now(),
-      values: [53, 15, 25, 35, 26, 33, 63],
+      values: r(),
     },
     {
       started: Date.now(),
-      values: [53, 15, 25, 35, 26, 33, 63],
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
+    },
+    {
+      started: Date.now(),
+      values: r(),
     },
   ]
 }

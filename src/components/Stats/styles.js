@@ -6,7 +6,7 @@ import {
 
 export default StyleSheet.create(scaleStylesheet({
   text: Object.assign({}, constants.text.label, {
-    color: constants.colors.highlight
+    color: constants.colors.highlight,
   }),
   container: {
     justifyContent: 'flex-start',
@@ -14,9 +14,22 @@ export default StyleSheet.create(scaleStylesheet({
   },
   results: {
     flex: 1,
-    borderWidth: 1,
     alignSelf: 'stretch',
     flexDirection: 'column',
+  },
+  resultsRow: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  resultsRowItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  resultsRowImage: {
+    width: 30,
+    height: 30,
   },
   transitionButton: {
     height: 100,

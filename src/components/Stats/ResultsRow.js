@@ -20,6 +20,7 @@ export default class ResultsRow extends PureComponent {
       initialHRV: 0,
       averageHRV: 0,
       lastHRV: 0,
+      index: 0,
     }
   }
 
@@ -27,9 +28,10 @@ export default class ResultsRow extends PureComponent {
     if (props.data.values) {
       const sum = props.data.values.reduce( (a, b) => (a + b), 0)
       this.setState({
-        initialHRV: props.data.values[0],
+        initialHRV: props.data.values[0].toFixed(2),
         averageHRV: (sum / props.data.values.length).toFixed(2),
-        lastHRV: props.data.values[props.data.values.length - 1],
+        lastHRV: props.data.values[props.data.values.length - 1].toFixed(2),
+        index: props.index,
       })
     }
   }
@@ -44,10 +46,24 @@ export default class ResultsRow extends PureComponent {
 
   render() {
     return (
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <Text style={{flex: 1, textAlign: 'center'}}>{this.state.initialHRV}</Text>
-        <Text style={{flex: 1, textAlign: 'center'}}>{this.state.averageHRV}</Text>
-        <Text style={{flex: 1, textAlign: 'center'}}>{this.state.lastHRV}</Text>
+      <View style={{backgroundColor: (this.state.index % 2 == 0) ? '#ffffff' : '#f2f2f2'}}>
+        <View style={styles.resultsRowItem}>
+          <Text style={styles.text}>Session {this.state.index}</Text>
+        </View>
+        <View style={styles.resultsRow}>
+          <View style={styles.resultsRowItem}>
+            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+            <Text style={styles.text}>{this.state.initialHRV}</Text>
+          </View>
+          <View style={styles.resultsRowItem}>
+            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+            <Text style={styles.text}>{this.state.averageHRV}</Text>
+          </View>
+          <View style={styles.resultsRowItem}>
+            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+            <Text style={styles.text}>{this.state.lastHRV}</Text>
+          </View>
+        </View>
       </View>
     )
   }
