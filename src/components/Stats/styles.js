@@ -16,10 +16,15 @@ export default StyleSheet.create(scaleStylesheet({
     flex: 1,
     alignSelf: 'stretch',
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   resultsRow: {
     flex: 1,
     flexDirection: 'row',
+  },
+  resultsRowHeader: {
+    flex: 1,
+    padding: 10,
   },
   resultsRowItem: {
     flex: 1,

@@ -11,7 +11,6 @@ export default class Results extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(this.props.history)
     };
-    console.log('Results', this.props.history)
   }
 
   componentWillReceiveProps(newProps) {
