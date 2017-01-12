@@ -14,7 +14,7 @@ import styles from './styles'
 
 export default function (props) {
   return (
-    <View style={[mainStyles.centeredContainer, styles.container]}>
+    <View style={styles.container}>
       <View style={styles.results}>
        {props.children}
       </View>

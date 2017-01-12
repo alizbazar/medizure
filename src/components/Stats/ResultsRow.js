@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import styles from './styles.js'
+import styles, { ROW_HEIGHT } from './styles.js'
 import React, { PureComponent } from 'react'
 import moment from 'moment'
 import {
@@ -21,8 +21,8 @@ export default class ResultsRow extends PureComponent {
       averageHRV: 0,
       lastHRV: 0,
       index: 0,
-      expanded: true,
-      animation: new Animated.Value(),
+      expanded: false,
+      animation: new Animated.Value(0),
       time: moment().format("D.M.YYYY HH:mm"),
     }
   }
@@ -42,45 +42,48 @@ export default class ResultsRow extends PureComponent {
         initialHRV: props.data.values[0].toFixed(2),
         averageHRV: (sum / props.data.values.length).toFixed(2),
         lastHRV: props.data.values[props.data.values.length - 1].toFixed(2),
-        index: props.index,
+        index: parseInt(props.index),
       })
     }
   }
 
   toggle = () => {
-    const initialValue = this.state.expanded ? 100 : 50
-    const finalValue = this.state.expanded ? 50: 100
+    const initialValue = this.state.expanded ? ROW_HEIGHT : 0
+    const finalValue = this.state.expanded ? 0 : ROW_HEIGHT
 
     this.setState({ expanded: !this.state.expanded})
-    this.state.animation.setValue(initialValue)
-    Animated.spring(this.state.animation, {
-      toValue: finalValue
+    Animated.timing(this.state.animation, {
+      toValue: finalValue,
+      duration: 300,
     }).start()
   };
 
   render() {
     return (
-      <Animated.View style={{height: this.state.animation, backgroundColor: (this.state.index % 2 == 0) ? '#ffffff' : '#f2f2f2'}}>
-        <TouchableOpacity onPress={this.toggle}>
+      <TouchableOpacity onPress={this.toggle} activeOpacity={1.0}>
+        <View style={[styles.resultsRowContainer, (this.state.index % 2) ? styles.resultsRowContainerOdd : null]}>
           <View style={styles.resultsRowHeader}>
-            <Text style={styles.text}>Session {this.state.index} ({this.state.time})</Text>
+            <Text style={styles.text}>Session {this.state.index + 1}</Text>
+            <Text style={styles.text}>({this.state.time})</Text>
           </View>
-        </TouchableOpacity>
-        <View style={styles.resultsRow}>
-          <View style={styles.resultsRowItem}>
-            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
-            <Text style={styles.text}>{this.state.initialHRV}</Text>
-          </View>
-          <View style={styles.resultsRowItem}>
-            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
-            <Text style={styles.text}>{this.state.averageHRV}</Text>
-          </View>
-          <View style={styles.resultsRowItem}>
-            <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
-            <Text style={styles.text}>{this.state.lastHRV}</Text>
-          </View>
+          <Animated.View style={{ height: this.state.animation }}>
+            <View style={styles.resultsRowData}>
+              <View style={styles.resultsRowItem}>
+                <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+                <Text style={styles.text}>{this.state.initialHRV}</Text>
+              </View>
+              <View style={styles.resultsRowItem}>
+                <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+                <Text style={styles.text}>{this.state.averageHRV}</Text>
+              </View>
+              <View style={styles.resultsRowItem}>
+                <Image style={styles.resultsRowImage} resizeMode='contain' source={require('src/assets/heart.png')} />
+                <Text style={styles.text}>{this.state.lastHRV}</Text>
+              </View>
+            </View>
+          </Animated.View>
         </View>
-      </Animated.View>
+      </TouchableOpacity>
     )
   }
 
