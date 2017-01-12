@@ -4,7 +4,7 @@ import {
   scaleStylesheet
 } from 'src/styles'
 
-export const ROW_HEIGHT = 50
+export const ROW_HEIGHT = 300
 
 export default StyleSheet.create(scaleStylesheet({
   text: Object.assign({}, constants.text.label, {
@@ -26,7 +26,7 @@ export default StyleSheet.create(scaleStylesheet({
     backgroundColor: '#f2f2f2',
   },
   resultsRowData: {
-    height: ROW_HEIGHT,
+    height: 60,
     flexDirection: 'row',
   },
   resultsRowHeader: {

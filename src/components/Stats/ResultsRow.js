@@ -1,7 +1,6 @@
 import _ from 'lodash'
-import styles, { ROW_HEIGHT } from './styles.js'
-import React, { PureComponent } from 'react'
 import moment from 'moment'
+import React, { PureComponent } from 'react'
 import {
   View,
   ListView,
@@ -10,6 +9,9 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native'
+
+import styles, { ROW_HEIGHT } from './styles.js'
+import HRVGraph from './HRVGraph'
 
 export default class ResultsRow extends PureComponent {
 
@@ -81,6 +83,7 @@ export default class ResultsRow extends PureComponent {
                 <Text style={styles.text}>{this.state.lastHRV}</Text>
               </View>
             </View>
+            <HRVGraph />
           </Animated.View>
         </View>
       </TouchableOpacity>
