@@ -26,6 +26,7 @@ export default class ResultsRow extends PureComponent {
       expanded: false,
       animation: new Animated.Value(0),
       time: moment().format("D.M.YYYY HH:mm"),
+      rawData: [],
     }
   }
 
@@ -39,12 +40,13 @@ export default class ResultsRow extends PureComponent {
 
   recalculateHRV(props) {
     if (props.data.values) {
-      const sum = props.data.values.reduce( (a, b) => (a + b), 0)
+      const sum = props.data.values.reduce( (sum, obj) => (sum + obj.hrv), 0)
       this.setState({
-        initialHRV: props.data.values[0].toFixed(2),
+        initialHRV: props.data.values[0].hrv.toFixed(2),
         averageHRV: (sum / props.data.values.length).toFixed(2),
-        lastHRV: props.data.values[props.data.values.length - 1].toFixed(2),
+        lastHRV: props.data.values[props.data.values.length - 1].hrv.toFixed(2),
         index: parseInt(props.index),
+        rawData: props.data.values,
       })
     }
   }
@@ -83,7 +85,7 @@ export default class ResultsRow extends PureComponent {
                 <Text style={styles.text}>{this.state.lastHRV}</Text>
               </View>
             </View>
-            <HRVGraph />
+            <HRVGraph data={this.state.rawData} />
           </Animated.View>
         </View>
       </TouchableOpacity>

@@ -133,7 +133,6 @@ export default class Meditate extends Component {
   }
 
   renderDeviceSelector() {
-    console.log('renderDeviceSelector')
     return (
       <FadeableView style={styles.guidedMeditationsView} fadeIn fadeOut={this.state.deviceSelectorDisplayed === 'fadeOut'}>
         <SelectDevice discoveredDevices={this.props.discoveredDevices} closeView={ () => { this.setState({deviceSelectorDisplayed: false}) }} />

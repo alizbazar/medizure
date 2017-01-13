@@ -8,7 +8,7 @@ import {
 const r = function() {
   let values = []
   for (let i = 0; i < 10; i++) {
-    values.push(Math.random() * 100)
+    values.push({ hrv: 40 + Math.random() * 20, time: i+1 })
   }
   return values
 }
