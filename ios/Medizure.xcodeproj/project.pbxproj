@@ -28,6 +28,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83AAEF8F1DFD66FD007920E1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */; };
 		83AAEF911DFD6A21007920E1 /* BluetoothManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */; };
+		83E872381E30E957003325B1 /* logo_only.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E872371E30E957003325B1 /* logo_only.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +216,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83AAEF8D1DFD66FD007920E1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		83AAEF901DFD6A21007920E1 /* BluetoothManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothManagerBridge.m; sourceTree = "<group>"; };
+		83E872371E30E957003325B1 /* logo_only.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_only.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +339,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				83E872371E30E957003325B1 /* logo_only.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				5032CB381DE8E6AE00EE2068 /* Medizure-Bridging-Header.h */,
 			);
@@ -735,6 +738,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				83E872381E30E957003325B1 /* logo_only.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
