@@ -55,13 +55,12 @@ class BluetoothManager:
 
   @objc(scanForDevices)
   func scanForDevices() -> Void {
-    centralManager = CBCentralManager(delegate: self, queue: nil)
+    centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
   }
   
   @objc(stopScan)
   func stopScan() -> Void {
     centralManager.stopScan()
-    NSLog("Scan stopped")
   }
 
   @objc(connectDevice:uuid:)
