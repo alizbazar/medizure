@@ -4,8 +4,10 @@ import rootReducer from 'src/reducers'
 
 // A super-simple logger
 const logger = store => next => action => {
-  if (action.type !== 'HEARTBEAT') {
-    console.log('dispatching', action.type, action)
+  if (action.type === 'BT_SCAN_START') {
+    console.log('dispatching', action.type)
+  } else {
+    console.log('dispatching', action)
   }
   return next(action)
 }

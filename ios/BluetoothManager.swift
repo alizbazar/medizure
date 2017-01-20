@@ -93,11 +93,22 @@ class BluetoothManager:
   
   // Peripheral connected
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-    NSLog("**** SUCCESSFULLY CONNECTED TO \(deviceName) !!!")
+    NSLog("**** SUCCESSFULLY CONNECTED TO \(deviceName) !")
     // Discover only heart rate services "180D"
     peripheral.discoverServices([CBUUID(string: "180D")])
   }
+
+  // Peripheral disconnected
+  func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    NSLog("**** CONNECTION LOST TO \(deviceName):\(error?.localizedDescription)!")
+    bridge.eventDispatcher().sendAppEvent(withName: "connectionLost", body: peripheral.name)
+  }
   
+  // Peripheral failed to connected
+  func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+    NSLog("**** FAILED TO CONNECT TO \(deviceName):\(error?.localizedDescription)!")
+    bridge.eventDispatcher().sendAppEvent(withName: "failedToConnect", body: peripheral.name)
+  }
 
   // Service discovered
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -123,7 +134,7 @@ class BluetoothManager:
       NSLog("ERROR DISCOVERING CHARACTERISTICS: \(error?.localizedDescription)")
       return
     }
-    
+    NSLog("Characteristics found")
     if let characteristics = service.characteristics {
       for characteristic in characteristics {
         if (characteristic.uuid == CBUUID(string: "2A37")) {
@@ -142,10 +153,11 @@ class BluetoothManager:
     }
     if (characteristic.uuid == CBUUID(string: "2A37")) {
       getHeartRateMeasurementData(hrmData: characteristic.value! as NSData)
-      if (rrIntervals.reduce(0,+) >= MEASURE_TIME_S) {
+      if (rrIntervals.reduce(0,+) >= 2) {
         rMSSDcurrent = calcrMSSD(rrList: rrIntervals)
+        NSLog("HRV: \(rMSSDcurrent)")
+        bridge.eventDispatcher().sendAppEvent(withName: "rMSSDTick", body: rMSSDcurrent)
       }
-      bridge.eventDispatcher().sendAppEvent(withName: "HeartRateTick", body: ["rate": heartRate, "rMSSD": rMSSDcurrent])
     }
   }
 
@@ -189,21 +201,21 @@ class BluetoothManager:
         var value: UInt16 = 0
         hrmData.getBytes(&value, range: NSMakeRange(byteIndex, MemoryLayout<UInt16>.size))
         byteIndex += MemoryLayout<UInt16>.size
-        NSLog("RR interval sum: \(rrIntervals.reduce(0, +))")
+//        NSLog("RR interval sum: \(rrIntervals.reduce(0, +))")
         while (rrIntervals.reduce(0, +) > MEASURE_TIME_S) {
           rrIntervals.removeFirst()
         }
         rrIntervals.append(Float(value) / 1024.0)
-        bridge.eventDispatcher().sendAppEvent(withName: "rrInterval", body: ["interval": Float(value) / 1024.0])
+//        bridge.eventDispatcher().sendAppEvent(withName: "rrInterval", body: ["interval": Float(value) / 1024.0])
       }
     }
     
-    NSLog("Heart rate: \(heartRate)")
-    NSLog("Sensor detected: \(sensorDetected)")
-    if let energyExpended = energyExpended {
-      NSLog("Energy expended: \(energyExpended)")
-    }
-    NSLog("RR Intervals: \(rrIntervals)")
+//    NSLog("Heart rate: \(heartRate)")
+//    NSLog("Sensor detected: \(sensorDetected)")
+//    if let energyExpended = energyExpended {
+//      NSLog("Energy expended: \(energyExpended)")
+//    }
+//    NSLog("RR Intervals: \(rrIntervals)")
   }
 
   private enum HeartRateMeasurement: UInt8 {

@@ -22,12 +22,13 @@ import {
   BT_SCAN_STOP,
   BT_DEVICE_DISCOVERED,
   BT_DEVICE_CLEAR,
+  BT_DEVICE_SELECT,
 
   NAV_MEDITATE,
   NAV_STATS
 } from 'src/constants'
 
-import { asyncStore } from 'src/lib/async-store'
+import { asyncStore, cleanAsyncStorage } from 'src/lib/async-store'
 import { observeStore } from 'src/lib/store-observer'
 
 /**
@@ -97,6 +98,8 @@ export function appStart () {
     .catch(err => {
       console.warn(err)
     })
+    // REMOVE THIS IN PRODUCTION
+    // cleanAsyncStorage()
   }
 }
 
@@ -112,7 +115,6 @@ export function goToStats () {
   }
 }
 
-let HRVsubscription = null
 export function toggleMeditationSession(on = false) {
   return function (dispatch, getState) {
     const state = getState()
@@ -123,21 +125,12 @@ export function toggleMeditationSession(on = false) {
           timestamp: Date.now()
         }
       })
-      HRVsubscription = NativeAppEventEmitter.addListener('rMSSDTick', data => {
-        dispatch({
-          type: HRV,
-          payload: {
-            data,
-            timestamp: Date.now()
-          }
-        })
-      })
     } else if (!on && state.app_state.is_meditation_ongoing) {
-      if (HRVsubscription) {
-        HRVsubscription.remove()
-        HRVsubscription = null
+      if (hrvListener) {
+        hrvListener.remove()
+        hrvListener = null
       }
-      // TODO: Detatch HRV listener
+
       dispatch({
         type: END_MEDITATION_SESSION,
         payload: {
@@ -148,39 +141,66 @@ export function toggleMeditationSession(on = false) {
   }
 }
 
+let deviceListener = null
 export function scanForDevices () {
   return function (dispatch, getState) {
     const state = getState()
 
     if (!state.app_state.is_connecting_to_hr) {
-
-      NativeAppEventEmitter.addListener('peripheralDiscovered', data => {
+      hrvListener = NativeAppEventEmitter.addListener('peripheralDiscovered', data => {
         dispatch({
           type: BT_DEVICE_DISCOVERED,
           payload: data
         })
       })
+      dispatch({
+        type: BT_SCAN_START,
+      })
+
+      BluetoothManager.scanForDevices()
     }
-
-    dispatch({
-      type: BT_SCAN_START
-    })
-
-    BluetoothManager.scanForDevices()
   }
 }
-
 export function stopScan() {
   return function (dispatch, getState) {
     const state = getState()
     if (state.app_state.is_connecting_to_hr) {
+
+      if (deviceListener) {
+        deviceListener.remove()
+        deviceListener = null
+      }
+      BluetoothManager.stopScan()
+
       dispatch({
         type: BT_SCAN_STOP
       })
       dispatch({
         type: BT_DEVICE_CLEAR
       })
-      BluetoothManager.stopScan()
+    }
+  }
+}
+
+let hrvListener = null
+export function selectDevice(device) {
+  return function(dispatch, getState) {
+    const state = getState()
+    if ((state.app_state.selected_device === '') && device) {
+      BluetoothManager.connectDevice(device.name, device.uuid)
+      dispatch({
+        type: BT_DEVICE_SELECT,
+        payload: device.name,
+      })
+      hrvListener = NativeAppEventEmitter.addListener('rMSSDTick', data => {
+        dispatch({
+          type: BT_HRV,
+          payload: {
+            data,
+            timestamp: Date.now()
+          }
+        })
+      })
     }
   }
 }

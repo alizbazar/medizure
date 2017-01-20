@@ -39,6 +39,7 @@ export default class ResultsRow extends PureComponent {
   }
 
   recalculateHRV(props) {
+    console.log('hrv', props)
     if (props.data.values) {
       const sum = props.data.values.reduce( (sum, obj) => (sum + obj.hrv), 0)
       this.setState({

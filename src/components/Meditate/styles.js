@@ -59,9 +59,7 @@ export default StyleSheet.create(scaleStylesheet({
     alignItems: 'center',
   },
 
-  deviceSelectorText: {
-    fontSize: 25,
-  },
+  deviceSelectorText: constants.text.h1,
 
   deviceSelector: {
     margin: 10,

@@ -2,24 +2,11 @@ import {
   LOAD_PERSISTENT_APP_STATE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
-  HRV
+  BT_HRV
 } from 'src/constants'
 
-const r = function() {
-  let values = []
-  for (let i = 0; i < 10; i++) {
-    values.push({ hrv: 40 + Math.random() * 20, time: i+1 })
-  }
-  return values
-}
-
 const initialState = {
-  history: [
-    {
-      started: Date.now(),
-      values: r(),
-    }
-  ]
+  history: []
 }
 
 export default function (currentstate = initialState, action) {
@@ -40,17 +27,25 @@ export default function (currentstate = initialState, action) {
       })
     }
 
-    case HRV: {
-      const history = currentstate.history.slice()
-      const pos = history.length - 1
+    case BT_HRV: {
 
-      // TODO: make sure the history item !item.ended
+      const history = currentstate.history.slice()
+      if (history.length === 0) {
+        return currentstate
+      }
+
+      const pos = history.length ? 0 : history.length - 1
+      if (!history[pos].started) {
+        return currentstate
+      }
+
       history[pos] = Object.assign({}, history[pos])
       history[pos].values = history[pos].values.slice()
 
-      const dataObj = Object.assign({}, action.payload.data, {
-        timestamp: action.payload.timestamp
-      })
+      const dataObj = {
+        hrv: action.payload.data,
+        timestamp: action.payload.timestamp,
+      }
 
       history[pos].values.push(dataObj)
 

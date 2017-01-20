@@ -12,7 +12,6 @@ import ActionButton from 'src/components/ActionButton'
 import TimeSelector from './TimeSelector'
 import GuidedMeditations from './GuidedMeditations'
 import SelectDevice from './SelectDevice'
-import FadeableView from 'src/components/FadeableView'
 
 import mainStyles, { constants } from 'src/styles'
 import styles from './styles'
@@ -29,7 +28,6 @@ export default class Meditate extends Component {
       selectedDuration: 0,
       suggestedDuration: 15,
       isConnected: false,
-      hrTimeout: null,
       heartBounce: new Animated.Value(1.0),
       guidedMeditationSelectorDisplayed: false,
       deviceSelectorDisplayed: false
@@ -42,39 +40,18 @@ export default class Meditate extends Component {
         selectorAnimationStarted: true
       })
     }, 200)
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     isConnected: true
-    //   })
-    // }, 3000)
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.lastHrTimestamp && newProps.lastHrTimestamp !== this.props.lastHrTimestamp) {
-      if (this.state.hrTimeout) {
-        clearTimeout(this.state.hrTimeout)
+    if (newProps.lastHRVTimestamp && newProps.lastHRVTimestamp !== this.props.lastHRVTimestamp) {
+      if (!this.state.isConnected) {
+        this.setState({ isConnected: true })
       }
-
-      this.setState({
-        isConnected: true,
-        hrTimeout: setTimeout(() => {
-          this.setState({
-            isConnected: false
-          })
-
-          // HR: Connected timeout
-          clearTimeout(this.state.hrTimeout)
-        }, 5000)
-      })
-
       this.bounceHeart()
-
     }
   }
 
   bounceHeart() {
-    // console.log('BOUNCE')
       this.state.heartBounce.setValue(0.7),
       Animated.spring(
       this.state.heartBounce,
@@ -135,9 +112,18 @@ export default class Meditate extends Component {
   renderDeviceSelector() {
     return (
       <View style={styles.deviceSelectorContainer}>
-        <SelectDevice discoveredDevices={this.props.discoveredDevices} closeView={ () => { this.setState({deviceSelectorDisplayed: false}) }} />
+        <SelectDevice
+          discoveredDevices={this.props.discoveredDevices}
+          closeView={ () => this.setState({deviceSelectorDisplayed: false}) }
+          onSelect={ (device) => this.onSelectDevice(device) }/>
       </View>
     )
+  }
+
+  onSelectDevice(device) {
+    this.props.selectDevice(device)
+    this.props.stopScan()
+    this.setState({isConnected: true})
   }
 
   renderGuidanceSelector() {
@@ -163,23 +149,23 @@ export default class Meditate extends Component {
     )
   }
 
-  renderFooter() {
-    const selectDevice = () => {
-      if (!this.props.isConnectingToHR) {
-        this.props.scanForDevices()
-      } else {
-        this.props.stopScan()
-      }
-      this.setState({deviceSelectorDisplayed: !this.state.deviceSelectorDisplayed})
 
+  onSelectConnect() {
+    if (!this.props.isConnectingToHR) {
+      this.props.scanForDevices()
+    } else {
+      this.props.stopScan()
     }
+    this.setState({deviceSelectorDisplayed: !this.state.deviceSelectorDisplayed})
+  }
+
+  renderFooter() {
+
     return (
       <View style={styles.footer}>
 
-        <ActionButton bounce={this.state.heartBounce} selected={this.state.isConnected} heart={true} onPress={selectDevice}>
-          {this.state.isConnected ? "HR: Connected" :
-            this.props.isConnectingToHR ? "HR: Connecting..." : 'HR: Connect'
-          }
+        <ActionButton bounce={this.state.heartBounce} selected={this.state.isConnected} heart={true} onPress={() => this.onSelectConnect()}>
+          { this.state.isConnected ? 'HR: Connected' : this.props.isConnectingToHR ? 'HR: Connecting...' : 'HR: Connect' }
         </ActionButton>
 
         <ActionButton selected={false} onPress={() => {this.setState({guidedMeditationSelectorDisplayed: true})}}>
@@ -192,9 +178,7 @@ export default class Meditate extends Component {
 
   renderMeditationFooter() {
     return (
-      <View style={styles.footer}>
-
-      </View>
+      <View style={styles.footer} />
     )
   }
 
@@ -235,7 +219,6 @@ export default class Meditate extends Component {
         { this.state.guidedMeditationSelectorDisplayed ? this.renderGuidanceSelector() : null}
         { this.state.deviceSelectorDisplayed ? this.renderDeviceSelector() : null}
 
-        { this.props.children || null }
       </View>
     )
   }

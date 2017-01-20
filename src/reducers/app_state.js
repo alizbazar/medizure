@@ -2,6 +2,7 @@ import {
   APP_STARTUP_COMPLETE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
+  BT_HRV,
   BT_SCAN_START,
   BT_SCAN_STOP,
   BT_DEVICE_DISCOVERED,
@@ -17,6 +18,7 @@ const initialState = {
   selected_guided_meditation: 'testclip',
   discovered_devices: {},
   selected_device: '',
+  last_hrv_timestamp: Date.now(),
 }
 
 export default function (currentstate = initialState, action) {
@@ -38,6 +40,11 @@ export default function (currentstate = initialState, action) {
         is_meditation_ongoing: false
       })
 
+    case BT_HRV:
+      return Object.assign({}, currentstate, {
+        last_hrv_timestamp: Date.now()
+      })
+
     case BT_SCAN_START:
       return Object.assign({}, currentstate, {
         is_connecting_to_hr: true
@@ -51,10 +58,7 @@ export default function (currentstate = initialState, action) {
     case BT_DEVICE_DISCOVERED:
       if (!currentstate.discovered_devices[action.payload.uuid]) {
         const discovered_devices = { ...currentstate.discovered_devices, [action.payload.uuid]: action.payload }
-        console.log('ACTION', discovered_devices)
-        return Object.assign({}, currentstate, {
-          discovered_devices
-        })
+        return Object.assign({}, currentstate, { discovered_devices })
       }
       return currentstate
 

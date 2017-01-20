@@ -123,6 +123,12 @@ const constants = {
 
 Object.assign(constants, {
   text: {
+
+    h1: {
+      fontSize: 26,
+      fontFamily: constants.fonts.bold,
+    },
+
     label: {
       fontSize: 24,
       fontFamily: constants.fonts.bold,

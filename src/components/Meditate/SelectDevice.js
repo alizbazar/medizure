@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import styles from './styles.js'
 import React, {
-  Component
+  PureComponent
 } from 'react'
 import {
   View,
@@ -11,29 +11,20 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import {
-  NativeModules,
-  NativeAppEventEmitter
-} from 'react-native'
-const {
-  BluetoothManager
-} = NativeModules
-
-export default class SelectDevice extends Component {
+export default class SelectDevice extends PureComponent {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    const discoveredDevices = _.values(this.props.discoveredDevices)
+    })
     this.state = {
-      dataSource: ds.cloneWithRows(discoveredDevices)
+      dataSource: ds
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (this.props.discoveredDevices !== newProps.discoveredDevices) {
-      const discoveredDevices = _.values(this.props.discoveredDevices)
+      const discoveredDevices = _.values(newProps.discoveredDevices)
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(discoveredDevices)
       })
@@ -43,13 +34,13 @@ export default class SelectDevice extends Component {
   renderHeader() {
     return (
       <View style={styles.deviceSelectorRow}>
-        <Text style={styles.deviceSelectorText}>Select bluetooth device:</Text>
+        <Text style={styles.deviceSelectorText}>Select Bluetooth device:</Text>
       </View>
     )
   }
 
   onPressSelection = (rdata) => {
-    BluetoothManager.connectDevice(rdata.name, rdata.uuid)
+    this.props.onSelect(rdata)
     this.props.closeView()
   };
 
@@ -68,11 +59,11 @@ export default class SelectDevice extends Component {
   render() {
     return (
       <View style={styles.deviceSelector}>
-        <ListView 
-        renderHeader = {this.renderHeader}
-        dataSource = {this.state.dataSource}
-        renderRow = {this.renderRow}
-        enableEmptySections={true}
+        <ListView
+          renderHeader = {this.renderHeader}
+          dataSource = {this.state.dataSource}
+          renderRow = {this.renderRow}
+          enableEmptySections={true}
         />
       </View>
     )
