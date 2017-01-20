@@ -35,8 +35,8 @@ export default StyleSheet.create(scaleStylesheet({
 
   footer: {
     marginBottom: 40,
-    justifyContent: 'flex-end',
-    height: 200,
+    justifyContent: 'space-between',
+    height: 150,
   },
 
   guidedMeditationsView: {
@@ -47,9 +47,15 @@ export default StyleSheet.create(scaleStylesheet({
     bottom: 0
   },
 
+  deviceSelectorContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+
   deviceSelectorRow: {
     padding: 12,
-    flex: 1,
     alignItems: 'center',
   },
 

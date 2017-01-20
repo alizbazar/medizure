@@ -16,10 +16,6 @@ const heartInactive = require('src/assets/heart-inactive.png')
 import { constants } from 'src/styles'
 
 const styles = StyleSheet.create({
-  touchableArea: {
-    padding: 10,
-    // margin: 5,
-  },
   button: {
     width: 300,
     flexDirection: 'row',
@@ -33,16 +29,6 @@ const styles = StyleSheet.create({
   buttonSelected: {
     backgroundColor: constants.colors.inverse,
   },
-  arrowUp: {
-    width: 50,
-    height: 21,
-    marginBottom: 6,
-  },
-  arrowDown: {
-    width: 50,
-    height: 21,
-    marginTop: 6,
-  },
   label: Object.assign({}, constants.text.buttonCopy, {
     textAlign: 'center',
     fontSize: 22,
@@ -51,13 +37,11 @@ const styles = StyleSheet.create({
     color: constants.colors.highlight,
     fontFamily: constants.fonts.bold,
   },
-
   heartActive: {
     width: 30,
     height: 26,
     marginRight: 13,
   },
-
   heartInactive: {
     width: 34,
     height: 30,
@@ -66,13 +50,6 @@ const styles = StyleSheet.create({
 })
 
 export default class ActionButton extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-
-    }
-  }
 
   renderHeart() {
     if (this.props.selected) {

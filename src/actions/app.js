@@ -17,10 +17,11 @@ import {
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
 
-  SCAN_FOR_DEVICES,
-  HEARTBEAT,
-  HRV,
-  DEVICE_DISCOVERED,
+  BT_HRV,
+  BT_SCAN_START,
+  BT_SCAN_STOP,
+  BT_DEVICE_DISCOVERED,
+  BT_DEVICE_CLEAR,
 
   NAV_MEDITATE,
   NAV_STATS
@@ -153,24 +154,33 @@ export function scanForDevices () {
 
     if (!state.app_state.is_connecting_to_hr) {
 
-      NativeAppEventEmitter.addListener('HeartRateTick', data => {
-        dispatch({
-          type: HEARTBEAT,
-          payload: Date.now()
-        })
-      })
       NativeAppEventEmitter.addListener('peripheralDiscovered', data => {
         dispatch({
-          type: DEVICE_DISCOVERED,
+          type: BT_DEVICE_DISCOVERED,
           payload: data
         })
       })
     }
 
     dispatch({
-      type: SCAN_FOR_DEVICES
+      type: BT_SCAN_START
     })
 
     BluetoothManager.scanForDevices()
+  }
+}
+
+export function stopScan() {
+  return function (dispatch, getState) {
+    const state = getState()
+    if (state.app_state.is_connecting_to_hr) {
+      dispatch({
+        type: BT_SCAN_STOP
+      })
+      dispatch({
+        type: BT_DEVICE_CLEAR
+      })
+      BluetoothManager.stopScan()
+    }
   }
 }

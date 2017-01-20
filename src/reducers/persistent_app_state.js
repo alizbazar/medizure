@@ -18,51 +18,7 @@ const initialState = {
     {
       started: Date.now(),
       values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
-    {
-      started: Date.now(),
-      values: r(),
-    },
+    }
   ]
 }
 

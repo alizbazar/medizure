@@ -77,5 +77,4 @@ export default class FadeableView extends Component {
       </Animated.View>
     )
   }
-
 }

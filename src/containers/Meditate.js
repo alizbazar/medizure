@@ -121,7 +121,8 @@ class MeditateContainer extends Component {
           'meditationOngoing',
           'isConnectingToHR',
           'lastHrTimestamp',
-          'discoveredDevices'
+          'discoveredDevices',
+          'stopScan',
         ])}
       >
 

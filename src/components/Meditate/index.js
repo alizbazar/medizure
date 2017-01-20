@@ -134,9 +134,9 @@ export default class Meditate extends Component {
 
   renderDeviceSelector() {
     return (
-      <FadeableView style={styles.guidedMeditationsView} fadeIn fadeOut={this.state.deviceSelectorDisplayed === 'fadeOut'}>
+      <View style={styles.deviceSelectorContainer}>
         <SelectDevice discoveredDevices={this.props.discoveredDevices} closeView={ () => { this.setState({deviceSelectorDisplayed: false}) }} />
-      </FadeableView>
+      </View>
     )
   }
 
@@ -149,9 +149,9 @@ export default class Meditate extends Component {
       }, 300)
     }
     return (
-      <FadeableView style={styles.guidedMeditationsView} fadeIn fadeOut={this.state.guidedMeditationSelectorDisplayed === 'fadeOut'}>
+      <View style={styles.guidedMeditationsView}>
         <GuidedMeditations onPress={onPress} />
-      </FadeableView>
+      </View>
     )
   }
 
@@ -165,8 +165,13 @@ export default class Meditate extends Component {
 
   renderFooter() {
     const selectDevice = () => {
-      this.props.scanForDevices()
-      this.setState({deviceSelectorDisplayed: true})
+      if (!this.props.isConnectingToHR) {
+        this.props.scanForDevices()
+      } else {
+        this.props.stopScan()
+      }
+      this.setState({deviceSelectorDisplayed: !this.state.deviceSelectorDisplayed})
+
     }
     return (
       <View style={styles.footer}>

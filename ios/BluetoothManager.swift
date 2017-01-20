@@ -61,6 +61,7 @@ class BluetoothManager:
   @objc(stopScan)
   func stopScan() -> Void {
     centralManager.stopScan()
+    NSLog("Scan stopped")
   }
 
   @objc(connectDevice:uuid:)

@@ -2,22 +2,25 @@ import {
   APP_STARTUP_COMPLETE,
   START_MEDITATION_SESSION,
   END_MEDITATION_SESSION,
-  SCAN_FOR_DEVICES,
+  BT_SCAN_START,
+  BT_SCAN_STOP,
+  BT_DEVICE_DISCOVERED,
+  BT_DEVICE_SELECT,
+  BT_DEVICE_CLEAR,
   SELECT_GUIDED_MEDITATION,
-  HEARTBEAT,
-  DEVICE_DISCOVERED
 } from 'src/constants'
 
 const initialState = {
   app_startup_complete: false,
   is_meditation_ongoing: false,
   is_connecting_to_hr: false,
-  last_hr_timestamp: null,
   selected_guided_meditation: 'testclip',
-  discovered_devices: {}
+  discovered_devices: {},
+  selected_device: '',
 }
 
 export default function (currentstate = initialState, action) {
+
   switch (action.type) {
 
     case APP_STARTUP_COMPLETE:
@@ -35,14 +38,35 @@ export default function (currentstate = initialState, action) {
         is_meditation_ongoing: false
       })
 
-    case SCAN_FOR_DEVICES:
+    case BT_SCAN_START:
       return Object.assign({}, currentstate, {
         is_connecting_to_hr: true
       })
 
-    case HEARTBEAT:
+    case BT_SCAN_STOP:
       return Object.assign({}, currentstate, {
-        last_hr_timestamp: action.payload
+        is_connecting_to_hr: false
+      })
+
+    case BT_DEVICE_DISCOVERED:
+      if (!currentstate.discovered_devices[action.payload.uuid]) {
+        const discovered_devices = { ...currentstate.discovered_devices, [action.payload.uuid]: action.payload }
+        console.log('ACTION', discovered_devices)
+        return Object.assign({}, currentstate, {
+          discovered_devices
+        })
+      }
+      return currentstate
+
+    case BT_DEVICE_SELECT:
+      return Object.assign({}, currentstate, {
+        selected_device: action.payload
+      })
+
+    case BT_DEVICE_CLEAR:
+      return Object.assign({}, currentstate, {
+        discovered_devices: {},
+        selected_device: '',
       })
 
     case SELECT_GUIDED_MEDITATION:
@@ -50,15 +74,6 @@ export default function (currentstate = initialState, action) {
         selected_guided_meditation: action.payload
       })
 
-    case DEVICE_DISCOVERED:
-      if (!currentstate.discovered_devices[action.payload.uuid]) {
-        const discovered_devices = { ...currentstate.discovered_devices, [action.payload.uuid]: action.payload }
-        return Object.assign({}, currentstate, {
-          discovered_devices
-        })
-      }
-      return currentstate
- 
     default:
       return currentstate
   }
